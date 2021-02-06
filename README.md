@@ -13,3 +13,7 @@ With our website, we hope to educate the correct personal in the suffering commu
 ## Impact
 
 To create communities that have the proper knowledge to effectively sustain adequate nutrition.
+
+## License
+
+Creative Commons Share & Share Alike (CC BY-SA 4.0) https://creativecommons.org/licenses/by-sa/4.0/.
