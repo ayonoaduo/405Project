@@ -1,10 +1,9 @@
 # Sustainable Development 
 
-The UN Goal we chose to focus on is UN Goal 2: Zero Hunger, and the subgoal we aim to propose a plan for is:
-
-2.2 By 2030, end all forms of malnutrition, including achieving, by 2025, the internationally agreed targets on stunting and wasting in children under 5 years of age, and address the nutritional needs of adolescent girls, pregnant and lactating women, and older persons.
-
 Studies show that malnutrition can be prevented through a set of tried and tested interventions. We will focus on the three most important topics: Micronutrient intervention, breastfeeding awareness, and the first 1000 days of a child's life. We want to create an inclusive educational website that concisely lists the cause(s) of malnutrition, why and how they occur, and then provides organized modules for learning the information quickly and efficiently.  
+
+The UN Goal we chose to focus on is UN Goal 2: Zero Hunger, and the subgoal we aim to propose a plan for is:
+   2.2 By 2030, end all forms of malnutrition, including achieving, by 2025, the internationally agreed targets on stunting and wasting in children under 5 years    of age, and address the nutritional needs of adolescent girls, pregnant and lactating women, and older persons.
 
 ## Reason
 
