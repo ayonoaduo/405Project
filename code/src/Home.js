@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "./Home.css";
-import logo from "./logo.svg";
 import { auth } from "./firebase";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
-import { Input } from "@material-ui/core";
-import EmailOutlinedIcon from "@material-ui/icons/EmailOutlined";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import GradeIcon from "@material-ui/icons/Grade";
 import MenuIcon from "@material-ui/icons/Menu";
+import FacebookIcon from '@material-ui/icons/Facebook';
+import TwitterIcon from '@material-ui/icons/Twitter';
+import LinkedInIcon from '@material-ui/icons/LinkedIn';
+import InstagramIcon from '@material-ui/icons/Instagram';
 
 /*Styling for modal. Code from material-ui.com*/
 function getModalStyle() {
@@ -147,30 +147,7 @@ function Home() {
           </button>
           <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-              <li class="nav-item mx-0 mx-lg-1">
-                <a
-                  class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
-                  href="#portfolio"
-                >
-                  Portfolio
-                </a>
-              </li>
-              <li class="nav-item mx-0 mx-lg-1">
-                <a
-                  class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
-                  href="loggedin.html"
-                >
-                  About
-                </a>
-              </li>
-              <li class="nav-item mx-0 mx-lg-1">
-                <a
-                  class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
-                  href="#contact"
-                >
-                  Contact
-                </a>
-              </li>
+              
               <li class="nav-item mx-0 mx-lg-1">
                 {user?.displayName ? ( //if the user exists, show a Logout button
                   <div>
@@ -228,7 +205,7 @@ function Home() {
           </div>
           {/* <!-- Masthead Subheading--> */}
           <p class="masthead-subheading font-weight-light mb-0">
-            Bridging the gap of communication lol
+            A step towards zero hunger.
           </p>
         </div>
       </header>
@@ -271,41 +248,40 @@ function Home() {
                     <form
                       id="signupForm"
                       name="sentMessage"
-                      novalidate="novalidate"
-                      method="post"
-                      action=""
                     >
-                      <input type="hidden" name="submitted" value="1" />
+                      
                       <h3></h3>
+
                       <div class="control-group">
                         <div class="form-group floating-label-form-group controls mb-0 pb-2">
                           <input
                             class="form-control"
-                            id="email"
-                            type="email"
-                            placeholder="Email Address"
-                            required="required"
-                            data-validation-required-message="Please enter your email address."
-                          />
+                            id="username"
+                            type="text"
+                            placeholder="Username"
+                            onChange={(e) => setUsername(e.target.value)}
+
+                            />
                           <p class="help-block text-danger"></p>
                         </div>
                       </div>
 
                       <h3></h3>
-
                       <div class="control-group">
                         <div class="form-group floating-label-form-group controls mb-0 pb-2">
                           <input
                             class="form-control"
                             id="email"
                             type="text"
-                            placeholder="Username"
-                            required="required"
-                            data-validation-required-message="Please enter your username."
-                          />
-                          <p class="help-block text-danger"></p>
+                            placeholder="Email Address"
+                            onChange={(e) => setEmail(e.target.value)}
+/>                          <p class="help-block text-danger"></p>
                         </div>
                       </div>
+
+                      
+
+                      
 
                       <h3></h3>
 
@@ -313,31 +289,16 @@ function Home() {
                         <div class="form-group floating-label-form-group controls mb-0 pb-2">
                           <input
                             class="form-control"
-                            id="email"
+                            id="password"
                             type="password"
                             placeholder="Password"
-                            required="required"
-                            data-validation-required-message="Please enter your password."
-                          />
+                            onChange={(e) => setPassword(e.target.value)}
+                            />
                           <p class="help-block text-danger"></p>
                         </div>
                       </div>
 
-                      <h3></h3>
-
-                      <div class="control-group">
-                        <div class="form-group floating-label-form-group controls mb-0 pb-2">
-                          <input
-                            class="form-control"
-                            id="email"
-                            type="password"
-                            placeholder="Confirm Password"
-                            required="required"
-                            data-validation-required-message="Please enter confirm your password."
-                          />
-                          <p class="help-block text-danger"></p>
-                        </div>
-                      </div>
+                      
 
                       <br />
                       <div id="success"></div>
@@ -361,40 +322,92 @@ function Home() {
         open={openSignIn} //state to keep track if its open
         onClose={() => setOpenSignIn(false)} //onClose method. closes the model when anywhere else on the screen is clicked
       >
-        <div style={modalStyle} className={classes.paper}>
-          <form className="app__signup">
-            <center>
-              <img
-                className="app__headerImage"
-                src={logo}
-                alt=""
-                width="100px"
-                height="100px"
-              />
-            </center>
-
-            <EmailOutlinedIcon />
-            <Input
-              placeholder="email"
-              type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-
-            <LockOutlinedIcon />
-            <Input
-              placeholder="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-
-            <button type="submit" onClick={signIn}>
-              Sign In
+        <div class="modal-dialog modal-xl" role="document">
+          <div class="modal-content">
+            <button
+              class="close"
+              type="button"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">
+                <i class="fas fa-times"></i>
+              </span>
             </button>
-          </form>
+            <div class="modal-body text-center">
+              <div class="container">
+                <div class="row justify-content-center">
+                  <div class="col-lg-8">
+                    {/* <!-- Portfolio Modal - Title--> */}
+                    <h2
+                      class="portfolio-modal-title text-secondary text-uppercase mb-0"
+                      id="portfolioModal1Label"
+                    >
+                      Sign In
+                    </h2>
+                    {/* <!-- Icon Divider--> */}
+                    <div class="divider-custom">
+                      <div class="divider-custom-line"></div>
+                      <div class="divider-custom-icon">
+                        <GradeIcon style={{ fontSize: 40 }} />
+                      </div>
+                      <div class="divider-custom-line"></div>
+                    </div>
+                    <form
+                      id="signupForm"
+                      name="sentMessage"
+                    >
+                      
+                      <h3></h3>
+                      <div class="control-group">
+                        <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                          <input
+                            placeholder="Email"
+                            class="form-control"
+
+                            type="text"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                          />
+                          <p class="help-block text-danger"></p>
+                        </div>
+                      </div>
+
+                      <h3></h3>
+
+                      <div class="control-group">
+                        <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                          <input
+                            class="form-control"
+                            id="email"
+                            type="password"
+                            placeholder="Password"
+                            onChange={(e) => setPassword(e.target.value)}
+                            />
+                          <p class="help-block text-danger"></p>
+                        </div>
+                      </div>
+
+
+                      <br />
+                      <div id="success"></div>
+                      <button
+                        type="submit"
+                        class="btn btn-primary btn-xl"
+                        onClick={signIn}
+                      >
+                        Sign In
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </Modal>
+
+      
 
       {/* <!-- Footer--> */}
       <footer class="footer text-center">
@@ -415,26 +428,22 @@ function Home() {
             <div class="col-lg-4 mb-5 mb-lg-0">
               <h4 class="text-uppercase mb-4">Around the Web</h4>
               <a class="btn btn-outline-light btn-social mx-1" href="#!">
-                <i class="fab fa-fw fa-facebook-f"></i>
+                <i><FacebookIcon style={{fontSize: 40}}/></i>
               </a>
               <a class="btn btn-outline-light btn-social mx-1" href="#!">
-                <i class="fab fa-fw fa-twitter"></i>
+              <i><TwitterIcon style={{fontSize: 38}}/></i>
+                
               </a>
               <a class="btn btn-outline-light btn-social mx-1" href="#!">
-                <i class="fab fa-fw fa-linkedin-in"></i>
+              <i><LinkedInIcon style={{fontSize: 38}}/></i>                
               </a>
               <a class="btn btn-outline-light btn-social mx-1" href="#!">
-                <i class="fab fa-fw fa-dribbble"></i>
-              </a>
+              <i><InstagramIcon style={{fontSize: 38}}/></i>              </a>
             </div>
             {/* <!-- Footer About Text--> */}
             <div class="col-lg-4">
               <h4 class="text-uppercase mb-4">About Project Vitality</h4>
-              <p class="lead mb-0">
-                Freelance is a free to use, MIT licensed Bootstrap theme created
-                by
-                <a href="http://startbootstrap.com">Start Bootstrap</a>.
-              </p>
+              <p class="lead mb-0">A step towards zero hunger</p>
             </div>
           </div>
         </div>
