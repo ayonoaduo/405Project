@@ -120,8 +120,6 @@ p {
   color: #1abc9c;
 }
 
-
-
 /***************************************************************************************************/
 abbr[title],
 abbr[data-original-title] {
@@ -10208,7 +10206,7 @@ a.text-primary:focus {
 }
 
 .text-secondary {
-  color: #2c3e50 !important;
+  color: black !important;
 }
 
 a.text-secondary:hover,
@@ -10445,7 +10443,7 @@ a.text-dark:focus {
   margin-left: 1rem;
 }
 .divider-custom .divider-custom-icon {
-  color: #2c3e50 !important;
+  color: black !important;
   font-size: 2rem;
 }
 .divider-custom.divider-light .divider-custom-line {

@@ -3,12 +3,20 @@ import "./Home.css";
 import { auth } from "./firebase";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
-import GradeIcon from "@material-ui/icons/Grade";
+import GradeRoundedIcon from "@material-ui/icons/GradeRounded";
 import MenuIcon from "@material-ui/icons/Menu";
-import FacebookIcon from '@material-ui/icons/Facebook';
-import TwitterIcon from '@material-ui/icons/Twitter';
-import LinkedInIcon from '@material-ui/icons/LinkedIn';
-import InstagramIcon from '@material-ui/icons/Instagram';
+import FacebookIcon from "@material-ui/icons/Facebook";
+import TwitterIcon from "@material-ui/icons/Twitter";
+import LinkedInIcon from "@material-ui/icons/LinkedIn";
+import InstagramIcon from "@material-ui/icons/Instagram";
+import bowl from "./bowl.png";
+import bottle from "./milk bottle.png";
+import calendar from "./Calendar.png";
+import AddRoundedIcon from "@material-ui/icons/AddRounded";
+import IconButton from "@material-ui/core/IconButton";
+import breastfeeding from "./breastfeeding.png";
+import vitamins from "./vitamins.png";
+import CloseRoundedIcon from "@material-ui/icons/CloseRounded";
 
 /*Styling for modal. Code from material-ui.com*/
 function getModalStyle() {
@@ -39,6 +47,9 @@ function Home() {
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = useState(getModalStyle);
   const [open, setOpen] = useState(false);
+  const [openMic, setOpenMic] = useState(false);
+  const [openBr, setOpenBr] = useState(false);
+  const [openFirst, setOpenFirst] = useState(false);
   const [openSignIn, setOpenSignIn] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -134,11 +145,6 @@ function Home() {
           <button
             class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded"
             type="button"
-            // data-toggle="collapse"
-            // data-target="#navbarResponsive"
-            // aria-controls="navbarResponsive"
-            // aria-expanded="false"
-            // aria-label="Toggle navigation"
           >
             Menu
             <i>
@@ -147,7 +153,6 @@ function Home() {
           </button>
           <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-              
               <li class="nav-item mx-0 mx-lg-1">
                 {user?.displayName ? ( //if the user exists, show a Logout button
                   <div>
@@ -198,7 +203,7 @@ function Home() {
             <div class="divider-custom-line"></div>
             <div class="divider-custom-icon">
               <i>
-                <GradeIcon style={{ fontSize: 50 }} />
+                <GradeRoundedIcon style={{ fontSize: 70 }} />
               </i>
             </div>
             <div class="divider-custom-line"></div>
@@ -210,6 +215,146 @@ function Home() {
         </div>
       </header>
 
+      {/* <!-- Three Main Focuses Section--> */}
+      <section class="page-section portfolio" id="Three Main Focuses">
+        <div class="container">
+          {/* <!-- Portfolio Section Heading--> */}
+          <h1 class="page-section-heading text-center text-uppercase text-secondary mb-0">
+            Three Main Focuses
+          </h1>
+          {/* <!-- Icon Divider--> */}
+          <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon">
+              <i>
+                <GradeRoundedIcon style={{ fontSize: 70 }} />
+              </i>
+            </div>
+            <div class="divider-custom-line"></div>
+          </div>
+          {/* <!-- Three Main Focuses Grid Items--> */}
+          <div class="row justify-content-center">
+            {/* <!-- Three Main Focuses Item 1--> */}
+            <div class="col-md-6 col-lg-4 mb-5">
+              <div class="portfolio-item mx-auto">
+                <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                  <div class="portfolio-item-caption-content text-center text-white"></div>
+                </div>
+              </div>
+            </div>
+            {/* <!-- Micronutrient Intervention--> */}
+            <div class="col-md-6 col-lg-4 mb-5">
+              <div class="portfolio-item mx-auto">
+                <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                  <div class="portfolio-item-caption-content text-center text-white">
+                    <IconButton>
+                      <AddRoundedIcon
+                        className="text-white"
+                        style={{ fontSize: 100 }}
+                        onClick={() => setOpenMic(true)}
+                      />
+                    </IconButton>{" "}
+                  </div>
+                </div>
+                <img class="img-fluid" src={bowl} alt="" />
+              </div>
+            </div>
+            {/* <!-- Portfolio Item 3--> */}
+            <div class="col-md-6 col-lg-4 mb-5">
+              <div class="portfolio-item mx-auto">
+                <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                  <div class="portfolio-item-caption-content text-center text-white">
+                    <i class="fas fa-plus fa-3x"></i>
+                  </div>
+                </div>
+                <img
+                  class="img-fluid"
+                  src="assets/img/portfolio/circus.png"
+                  alt=""
+                />
+              </div>
+            </div>
+            {/* <!-- Portfolio Item 4--> */}
+            <div class="col-md-6 col-lg-4 mb-5 mb-lg-0">
+              <div class="portfolio-item mx-auto">
+                <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                  <div class="portfolio-item-caption-content text-center text-white">
+                    <i class="fas fa-plus fa-3x"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* Breastfeeding Awareness */}
+            <div class="col-md-6 col-lg-4 mb-5 mb-md-0">
+              <div class="portfolio-item mx-auto">
+                <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                  <div class="portfolio-item-caption-content text-center text-white">
+                    <IconButton>
+                      <AddRoundedIcon
+                        className="text-white"
+                        style={{ fontSize: 100 }}
+                        onClick={() => setOpenBr(true)}
+                      />
+                    </IconButton>
+                  </div>
+                </div>
+                <img class="img-fluid" src={bottle} alt="" />
+              </div>
+            </div>
+            {/* <!-- Portfolio Item 6--> */}
+            <div class="col-md-6 col-lg-4">
+              <div class="portfolio-item mx-auto">
+                <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                  <div class="portfolio-item-caption-content text-center text-white">
+                    <i class="fas fa-plus fa-3x"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* <!-- Portfolio Item 7--> */}
+            <div class="col-md-6 col-lg-4">
+              <div class="portfolio-item mx-auto">
+                <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                  <div class="portfolio-item-caption-content text-center text-white">
+                    <i class="fas fa-plus fa-3x"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* <!-- First 100 days --> */}
+            <div class="col-md-6 col-lg-4">
+              <div class="portfolio-item mx-auto">
+                <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                  <div class="portfolio-item-caption-content text-center text-white">
+                    <IconButton>
+                      <AddRoundedIcon
+                        className="text-white"
+                        style={{ fontSize: 100 }}
+                        onClick={() => setOpenFirst(true)}
+                      />
+                    </IconButton>{" "}
+                  </div>
+                </div>
+
+                <img class="img-fluid" src={calendar} alt="" />
+              </div>
+            </div>
+
+            {/* <!-- Portfolio Item 9--> */}
+            <div class="col-md-6 col-lg-4">
+              <div class="portfolio-item mx-auto">
+                <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                  <div class="portfolio-item-caption-content text-center text-white">
+                    <i class="fas fa-plus fa-3x"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       <Modal //Sign up Modal
         open={open} //state to keep track if its open
         onClose={() => setOpen(false)} //onClose method. closes the model when anywhere else on the screen is clicked
@@ -241,15 +386,11 @@ function Home() {
                     <div class="divider-custom">
                       <div class="divider-custom-line"></div>
                       <div class="divider-custom-icon">
-                        <GradeIcon style={{ fontSize: 40 }} />
+                        <GradeRoundedIcon style={{ fontSize: 40 }} />
                       </div>
                       <div class="divider-custom-line"></div>
                     </div>
-                    <form
-                      id="signupForm"
-                      name="sentMessage"
-                    >
-                      
+                    <form id="signupForm" name="sentMessage">
                       <h3></h3>
 
                       <div class="control-group">
@@ -260,8 +401,7 @@ function Home() {
                             type="text"
                             placeholder="Username"
                             onChange={(e) => setUsername(e.target.value)}
-
-                            />
+                          />
                           <p class="help-block text-danger"></p>
                         </div>
                       </div>
@@ -275,13 +415,10 @@ function Home() {
                             type="text"
                             placeholder="Email Address"
                             onChange={(e) => setEmail(e.target.value)}
-/>                          <p class="help-block text-danger"></p>
+                          />{" "}
+                          <p class="help-block text-danger"></p>
                         </div>
                       </div>
-
-                      
-
-                      
 
                       <h3></h3>
 
@@ -293,12 +430,10 @@ function Home() {
                             type="password"
                             placeholder="Password"
                             onChange={(e) => setPassword(e.target.value)}
-                            />
+                          />
                           <p class="help-block text-danger"></p>
                         </div>
                       </div>
-
-                      
 
                       <br />
                       <div id="success"></div>
@@ -349,22 +484,17 @@ function Home() {
                     <div class="divider-custom">
                       <div class="divider-custom-line"></div>
                       <div class="divider-custom-icon">
-                        <GradeIcon style={{ fontSize: 40 }} />
+                        <GradeRoundedIcon style={{ fontSize: 40 }} />
                       </div>
                       <div class="divider-custom-line"></div>
                     </div>
-                    <form
-                      id="signupForm"
-                      name="sentMessage"
-                    >
-                      
+                    <form id="signupForm" name="sentMessage">
                       <h3></h3>
                       <div class="control-group">
                         <div class="form-group floating-label-form-group controls mb-0 pb-2">
                           <input
                             placeholder="Email"
                             class="form-control"
-
                             type="text"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
@@ -383,11 +513,10 @@ function Home() {
                             type="password"
                             placeholder="Password"
                             onChange={(e) => setPassword(e.target.value)}
-                            />
+                          />
                           <p class="help-block text-danger"></p>
                         </div>
                       </div>
-
 
                       <br />
                       <div id="success"></div>
@@ -407,7 +536,212 @@ function Home() {
         </div>
       </Modal>
 
-      
+      {/* Modal for Micronutient Intervention */}
+      <Modal
+        open={openMic} //state to keep track if its open
+        onClose={() => setOpenMic(false)} //onClose method. closes the model when anywhere else on the screen is clicked
+      >
+        <div class="modal-dialog modal-xl" role="document">
+          <div class="modal-content">
+            <button
+              class="close"
+              type="button"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">
+                <CloseRoundedIcon />
+              </span>
+            </button>
+            <div class="modal-body text-center">
+              <div class="container">
+                <div class="row justify-content-center">
+                  <div class="col-lg-8">
+                    {/* <!-- Portfolio Modal - Title--> */}
+                    <h2
+                      class="portfolio-modal-title text-secondary text-uppercase mb-0"
+                      id="portfolioModal5Label"
+                    >
+                      Micronutrient Intervention
+                    </h2>
+                    {/* <!-- Icon Divider--> */}
+                    <div class="divider-custom">
+                      <div class="divider-custom-line"></div>
+                      <div class="divider-custom-icon">
+                        <i>
+                          <GradeRoundedIcon style={{ fontSize: 70 }} />
+                        </i>
+                      </div>
+                      <div class="divider-custom-line"></div>
+                    </div>
+                    {/* <!-- Portfolio Modal - Image--> */}
+                    <img
+                      class="img-fluid rounded mb-5"
+                      src={vitamins}
+                      alt=""
+                      width="200"
+                      height="200"
+                    />
+                    {/* <!-- Portfolio Modal - Text--> */}
+                    <p class="mb-5">
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                      Mollitia neque assumenda ipsam nihil, molestias magnam,
+                      recusandae quos quis inventore quisquam velit asperiores,
+                      vitae? Reprehenderit soluta, eos quod consequuntur itaque.
+                      Nam.
+                    </p>
+                    <button
+                      class="btn btn-primary"
+                      onClick={() => setOpenMic(false)}
+                    >
+                      <i class="fas fa-times fa-fw"></i>
+                      Close Window
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Modal for Breastfeeding Awareness */}
+      <Modal
+        open={openBr} //state to keep track if its open
+        onClose={() => setOpenBr(false)} //onClose method. closes the model when anywhere else on the screen is clicked
+      >
+        <div class="modal-dialog modal-xl" role="document">
+          <div class="modal-content">
+            <button
+              class="close"
+              type="button"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">
+                <i class="fas fa-times"></i>
+              </span>
+            </button>
+            <div class="modal-body text-center">
+              <div class="container">
+                <div class="row justify-content-center">
+                  <div class="col-lg-8">
+                    {/* <!-- Portfolio Modal - Title--> */}
+                    <h2
+                      class="portfolio-modal-title text-secondary text-uppercase mb-0"
+                      id="portfolioModal5Label"
+                    >
+                      Breastfeeding Awareness
+                    </h2>
+                    {/* <!-- Icon Divider--> */}
+                    <div class="divider-custom">
+                      <div class="divider-custom-line"></div>
+                      <div class="divider-custom-icon">
+                        <i>
+                          <GradeRoundedIcon style={{ fontSize: 70 }} />
+                        </i>
+                      </div>
+                      <div class="divider-custom-line"></div>
+                    </div>
+                    {/* <!-- Portfolio Modal - Image--> */}
+                    <img
+                      class="img-fluid rounded mb-5"
+                      src={breastfeeding}
+                      alt=""
+                      width="200"
+                      height="200"
+                    />
+                    {/* <!-- Portfolio Modal - Text--> */}
+                    <p class="mb-5">
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                      Mollitia neque assumenda ipsam nihil, molestias magnam,
+                      recusandae quos quis inventore quisquam velit asperiores,
+                      vitae? Reprehenderit soluta, eos quod consequuntur itaque.
+                      Nam.
+                    </p>
+                    <button
+                      class="btn btn-primary"
+                      onClick={() => setOpenBr(false)}
+                    >
+                      <i class="fas fa-times fa-fw"></i>
+                      Close Window
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Modal for First 1000 days  */}
+      <Modal
+        open={openFirst} //state to keep track if its open
+        onClose={() => setOpenFirst(false)} //onClose method. closes the model when anywhere else on the screen is clicked
+      >
+        <div class="modal-dialog modal-xl" role="document">
+          <div class="modal-content">
+            <button
+              class="close"
+              type="button"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">
+                <i class="fas fa-times"></i>
+              </span>
+            </button>
+            <div class="modal-body text-center">
+              <div class="container">
+                <div class="row justify-content-center">
+                  <div class="col-lg-8">
+                    {/* <!-- Portfolio Modal - Title--> */}
+                    <h2
+                      class="portfolio-modal-title text-secondary text-uppercase mb-0"
+                      id="portfolioModal5Label"
+                    >
+                      First 100 days of a child's life
+                    </h2>
+                    {/* <!-- Icon Divider--> */}
+                    <div class="divider-custom">
+                      <div class="divider-custom-line"></div>
+                      <div class="divider-custom-icon">
+                        <i>
+                          <GradeRoundedIcon style={{ fontSize: 70 }} />
+                        </i>
+                      </div>
+                      <div class="divider-custom-line"></div>
+                    </div>
+                    {/* <!-- Portfolio Modal - Image--> */}
+                    <img
+                      class="img-fluid rounded mb-5"
+                      src={calendar}
+                      alt=""
+                      width="200"
+                      height="200"
+                    />
+                    {/* <!-- Portfolio Modal - Text--> */}
+                    <p class="mb-5">
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                      Mollitia neque assumenda ipsam nihil, molestias magnam,
+                      recusandae quos quis inventore quisquam velit asperiores,
+                      vitae? Reprehenderit soluta, eos quod consequuntur itaque.
+                      Nam.
+                    </p>
+                    <button
+                      class="btn btn-primary"
+                      onClick={() => setOpenFirst(false)}
+                    >
+                      <i class="fas fa-times fa-fw"></i>
+                      Close Window
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Modal>
 
       {/* <!-- Footer--> */}
       <footer class="footer text-center">
@@ -428,17 +762,25 @@ function Home() {
             <div class="col-lg-4 mb-5 mb-lg-0">
               <h4 class="text-uppercase mb-4">Around the Web</h4>
               <a class="btn btn-outline-light btn-social mx-1" href="#!">
-                <i><FacebookIcon style={{fontSize: 40}}/></i>
+                <i>
+                  <FacebookIcon style={{ fontSize: 40 }} />
+                </i>
               </a>
               <a class="btn btn-outline-light btn-social mx-1" href="#!">
-              <i><TwitterIcon style={{fontSize: 38}}/></i>
-                
+                <i>
+                  <TwitterIcon style={{ fontSize: 38 }} />
+                </i>
               </a>
               <a class="btn btn-outline-light btn-social mx-1" href="#!">
-              <i><LinkedInIcon style={{fontSize: 38}}/></i>                
+                <i>
+                  <LinkedInIcon style={{ fontSize: 38 }} />
+                </i>
               </a>
               <a class="btn btn-outline-light btn-social mx-1" href="#!">
-              <i><InstagramIcon style={{fontSize: 38}}/></i>              </a>
+                <i>
+                  <InstagramIcon style={{ fontSize: 38 }} />
+                </i>{" "}
+              </a>
             </div>
             {/* <!-- Footer About Text--> */}
             <div class="col-lg-4">
@@ -448,6 +790,16 @@ function Home() {
           </div>
         </div>
       </footer>
+
+      {/* <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes)--> */}
+      <div class="scroll-to-top d-lg-none position-fixed">
+        <a
+          class="js-scroll-trigger d-block text-center text-white rounded"
+          href="#page-top"
+        >
+          <i class="fa fa-chevron-up"></i>
+        </a>
+      </div>
     </div>
   );
 }
