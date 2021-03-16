@@ -114,10 +114,19 @@ p {
   display: inline;
   border: none;
   color: white;
+  outline: none;
+  outline-width: 0;
 }
 
 .app__loginContainer > button:hover {
   color: #1abc9c;
+}
+.signin__link {
+  color: #1abc9c;
+}
+.signin__link:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 /***************************************************************************************************/
@@ -3233,7 +3242,6 @@ input[type="button"].btn-block {
   }
 }
 
-.dropup,
 .dropright,
 .dropdown,
 .dropleft {
@@ -3331,13 +3339,13 @@ input[type="button"].btn-block {
     left: auto;
   }
 }
-.dropup .dropdown-menu {
+.dropdown-menu {
   top: auto;
   bottom: 100%;
   margin-top: 0;
   margin-bottom: 0.125rem;
 }
-.dropup .dropdown-toggle::after {
+.dropdown-toggle::after {
   display: inline-block;
   margin-left: 0.255em;
   vertical-align: 0.255em;
@@ -3347,7 +3355,7 @@ input[type="button"].btn-block {
   border-bottom: 0.3em solid;
   border-left: 0.3em solid transparent;
 }
-.dropup .dropdown-toggle:empty::after {
+.dropdown-toggle:empty::after {
   margin-left: 0;
 }
 
@@ -3525,7 +3533,7 @@ input[type="button"].btn-block {
   padding-left: 0.5625rem;
 }
 .dropdown-toggle-split::after,
-.dropup .dropdown-toggle-split::after,
+.dropdown-toggle-split::after,
 .dropright .dropdown-toggle-split::after {
   margin-left: 0;
 }

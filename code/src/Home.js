@@ -16,7 +16,10 @@ import AddRoundedIcon from "@material-ui/icons/AddRounded";
 import IconButton from "@material-ui/core/IconButton";
 import breastfeeding from "./breastfeeding.png";
 import vitamins from "./vitamins.png";
-import CloseRoundedIcon from "@material-ui/icons/CloseRounded";
+import un from "./un.jpeg";
+import { dom } from "@fortawesome/fontawesome-svg-core";
+
+dom.watch(); // This will kick of the initial replacement of i to svg tags and configure a MutationObserver
 
 /*Styling for modal. Code from material-ui.com*/
 function getModalStyle() {
@@ -43,9 +46,8 @@ const useStyles = makeStyles((theme) => ({
 
 function Home() {
   /*states...how you set variables in react*/
-  const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
-  const [modalStyle] = useState(getModalStyle);
+  const [] = useState(getModalStyle);
   const [open, setOpen] = useState(false);
   const [openMic, setOpenMic] = useState(false);
   const [openBr, setOpenBr] = useState(false);
@@ -167,17 +169,17 @@ function Home() {
                   //else, show a sign up button
                   <div className="app__loginContainer">
                     <button
-                      class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger text-uppercase font-weight-bold "
+                      className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger text-uppercase font-weight-bold "
                       onClick={() => setOpenSignIn(true)}
                     >
                       Sign In
                     </button>
-                    <button
+                    {/* <button
                       class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger text-uppercase font-weight-bold  "
                       onClick={() => setOpen(true)}
                     >
                       Sign Up
-                    </button>
+                    </button> */}
                   </div>
                 )}
               </li>
@@ -191,17 +193,13 @@ function Home() {
       <header class="masthead bg-primary text-white text-center">
         <div class="container d-flex align-items-center flex-column">
           {/* <!-- Masthead Avatar Image--> */}
-          <img
-            class="masthead-avatar mb-5"
-            src="assets/img/avataaars.svg"
-            alt=""
-          />
+          <img class="masthead-avatar mb-5" alt="" />
           {/* <!-- Masthead Heading--> */}
           <h1 class="masthead-heading text-uppercase mb-0">Project Vitality</h1>
           {/* <!-- Icon Divider--> */}
           <div class="divider-custom divider-light">
             <div class="divider-custom-line"></div>
-            <div class="divider-custom-icon">
+            <div classs="divider-custom-icon">
               <i>
                 <GradeRoundedIcon style={{ fontSize: 70 }} />
               </i>
@@ -444,6 +442,18 @@ function Home() {
                       >
                         Sign Up
                       </button>
+                      <br />
+                      <br />
+                      <span>Already have an account? </span>
+                      <span
+                        className="signin__link font-weight-bold"
+                        onClick={() => {
+                          setOpenSignIn(true);
+                          setOpen(false);
+                        }}
+                      >
+                        Sign In.
+                      </span>
                     </form>
                   </div>
                 </div>
@@ -520,6 +530,7 @@ function Home() {
 
                       <br />
                       <div id="success"></div>
+
                       <button
                         type="submit"
                         class="btn btn-primary btn-xl"
@@ -527,6 +538,18 @@ function Home() {
                       >
                         Sign In
                       </button>
+                      <br />
+                      <br />
+                      <span>Not yet a user? </span>
+                      <span
+                        className="signin__link font-weight-bold"
+                        onClick={() => {
+                          setOpen(true);
+                          setOpenSignIn(false);
+                        }}
+                      >
+                        Sign Up now.
+                      </span>
                     </form>
                   </div>
                 </div>
@@ -543,15 +566,8 @@ function Home() {
       >
         <div class="modal-dialog modal-xl" role="document">
           <div class="modal-content">
-            <button
-              class="close"
-              type="button"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">
-                <CloseRoundedIcon />
-              </span>
+            <button class="close" type="button">
+              <span aria-hidden="true"></span>
             </button>
             <div class="modal-body text-center">
               <div class="container">
