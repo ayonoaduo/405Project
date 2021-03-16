@@ -129,6 +129,31 @@ p {
   text-decoration: underline;
 }
 
+.info {
+  display: inline-block;
+  text-decoration: none;
+  padding: 5px 7px;
+  text-transform: uppercase;
+  color: #fff;
+  border: 0.5px solid #fff;
+  background-color: transparent;
+  filter: alpha(opacity=0);
+  -webkit-transform: scale(0.7);
+  -ms-transform: scale(0.7);
+  transform: scale(0.7);
+  -webkit-transition: all 0.4s ease-in;
+  transition: all 0.4s ease-in;
+  opacity: 1;
+  filter: alpha(opacity=100);
+  -webkit-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+  font-size: 18px;
+}
+
+.info:hover {
+  box-shadow: 0 0 5px #fff;
+}
 /***************************************************************************************************/
 abbr[title],
 abbr[data-original-title] {
