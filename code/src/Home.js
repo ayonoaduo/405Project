@@ -17,9 +17,9 @@ import IconButton from "@material-ui/core/IconButton";
 import breastfeeding from "./breastfeeding.png";
 import vitamins from "./vitamins.png";
 import un from "./un.jpeg";
-import { dom } from "@fortawesome/fontawesome-svg-core";
+//import { dom } from "@fortawesome/fontawesome-svg-core";
 
-dom.watch(); // This will kick of the initial replacement of i to svg tags and configure a MutationObserver
+//dom.watch(); // This will kick of the initial replacement of i to svg tags and configure a MutationObserver
 
 /*Styling for modal. Code from material-ui.com*/
 function getModalStyle() {
@@ -233,106 +233,62 @@ function Home() {
           {/* <!-- Three Main Focuses Grid Items--> */}
           <div class="row justify-content-center">
             {/* <!-- Three Main Focuses Item 1--> */}
-            <div class="col-md-6 col-lg-4 mb-5">
-              <div class="portfolio-item mx-auto">
-                <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-                  <div class="portfolio-item-caption-content text-center text-white"></div>
-                </div>
-              </div>
-            </div>
+            <div class="col-md-6 col-lg-4 mb-5"></div>
             {/* <!-- Micronutrient Intervention--> */}
             <div class="col-md-6 col-lg-4 mb-5">
               <div class="portfolio-item mx-auto">
                 <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
                   <div class="portfolio-item-caption-content text-center text-white">
-                    <IconButton>
+                    <h4>Micronutrient Intervention</h4>
+                    <a className="info">View More</a>
+                    {/* <IconButton>
                       <AddRoundedIcon
                         className="text-white"
                         style={{ fontSize: 100 }}
                         onClick={() => setOpenMic(true)}
                       />
-                    </IconButton>{" "}
+                    </IconButton>{" "} */}
                   </div>
                 </div>
                 <img class="img-fluid" src={bowl} alt="" />
               </div>
             </div>
             {/* <!-- Portfolio Item 3--> */}
-            <div class="col-md-6 col-lg-4 mb-5">
-              <div class="portfolio-item mx-auto">
-                <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-                  <div class="portfolio-item-caption-content text-center text-white">
-                    <i class="fas fa-plus fa-3x"></i>
-                  </div>
-                </div>
-                <img
-                  class="img-fluid"
-                  src="assets/img/portfolio/circus.png"
-                  alt=""
-                />
-              </div>
-            </div>
+            <div class="col-md-6 col-lg-4 mb-5"></div>
             {/* <!-- Portfolio Item 4--> */}
-            <div class="col-md-6 col-lg-4 mb-5 mb-lg-0">
-              <div class="portfolio-item mx-auto">
-                <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-                  <div class="portfolio-item-caption-content text-center text-white">
-                    <i class="fas fa-plus fa-3x"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <div class="col-md-6 col-lg-4 mb-5 mb-lg-0"></div>
             {/* Breastfeeding Awareness */}
             <div class="col-md-6 col-lg-4 mb-5 mb-md-0">
               <div class="portfolio-item mx-auto">
                 <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-                  <div class="portfolio-item-caption-content text-center text-white">
-                    <IconButton>
-                      <AddRoundedIcon
-                        className="text-white"
-                        style={{ fontSize: 100 }}
-                        onClick={() => setOpenBr(true)}
-                      />
-                    </IconButton>
+                  <div class="breastfeeding portfolio-item-caption-content text-center text-white">
+                    <h4>Breastfeeding Awareness</h4>
+                    <a className="info">View More</a>
                   </div>
                 </div>
                 <img class="img-fluid" src={bottle} alt="" />
               </div>
             </div>
             {/* <!-- Portfolio Item 6--> */}
-            <div class="col-md-6 col-lg-4">
-              <div class="portfolio-item mx-auto">
-                <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-                  <div class="portfolio-item-caption-content text-center text-white">
-                    <i class="fas fa-plus fa-3x"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <div class="col-md-6 col-lg-4"></div>
 
             {/* <!-- Portfolio Item 7--> */}
-            <div class="col-md-6 col-lg-4">
-              <div class="portfolio-item mx-auto">
-                <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-                  <div class="portfolio-item-caption-content text-center text-white">
-                    <i class="fas fa-plus fa-3x"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <div class="col-md-6 col-lg-4"></div>
 
             {/* <!-- First 100 days --> */}
             <div class="col-md-6 col-lg-4">
               <div class="portfolio-item mx-auto">
                 <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
                   <div class="portfolio-item-caption-content text-center text-white">
-                    <IconButton>
+                    <h3>First 100 days</h3>
+                    <a className="info">View More</a>
+                    {/* <IconButton>
                       <AddRoundedIcon
                         className="text-white"
                         style={{ fontSize: 100 }}
                         onClick={() => setOpenFirst(true)}
                       />
-                    </IconButton>{" "}
+                    </IconButton>{" "} */}
                   </div>
                 </div>
 
@@ -341,15 +297,7 @@ function Home() {
             </div>
 
             {/* <!-- Portfolio Item 9--> */}
-            <div class="col-md-6 col-lg-4">
-              <div class="portfolio-item mx-auto">
-                <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-                  <div class="portfolio-item-caption-content text-center text-white">
-                    <i class="fas fa-plus fa-3x"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <div class="col-md-6 col-lg-4"></div>
           </div>
         </div>
       </section>
