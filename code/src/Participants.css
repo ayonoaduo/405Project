@@ -1,0 +1,13 @@
+.participants {
+  position: absolute;
+  top: 50%;
+  left: 40%;
+}
+.participants__styling {
+  box-sizing: border-box;
+  padding: 1px;
+  border: 1px solid black;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+}
