@@ -1,62 +1,145 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import Button from "@material-ui/core/Button";
-import MenuIcon from "@material-ui/icons/Menu";
-import { auth } from "./firebase";
-function ParticipantPage({ user, setOpenSignIn }) {
+import React, { useState } from "react";
+import "./ParticipantPage.css";
+import AddBoxOutlinedIcon from "@material-ui/icons/AddBoxOutlined";
+import Modal from "@material-ui/core/Modal";
+import calendar from "./Calendar.png";
+import GradeRoundedIcon from "@material-ui/icons/GradeRounded";
+import { db, storage } from "./firebase";
+import firebase from "firebase";
+
+function ParticipantPage({ user }) {
+  const [openAddParticipant, setOpenAddParticipant] = useState(false); //State to handle First100Days Modal
+  const [name, setName] = useState("");
+  const [date, setDate] = useState(new Date());
+  const [address, setAddress] = useState("");
+
+  const upload = () => {
+    var docRef = db.collection("users");
+    docRef
+      .add({
+        name: name,
+        username: user.displayName,
+        date: date,
+        address: address,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      })
+      .then((docRef) => {
+        console.log("Document written with ID: ", docRef.id);
+      })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
+      });
+    setOpenAddParticipant(false);
+    setName(""); //reset progress
+    setDate("");
+    setAddress("");
+  };
   return (
     <div>
-      <nav
-        class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top"
-        id="mainNav"
+      <div className="participant__info">
+        <h5>Welcome, {user.displayName}</h5>
+        <h5>Who are you tracking?</h5>
+        <br />
+
+        <h5>
+          Participant List{" "}
+          <AddBoxOutlinedIcon
+            className="addBox"
+            onClick={() => {
+              setOpenAddParticipant(true);
+            }}
+          />
+        </h5>
+      </div>
+
+      <Modal
+        open={openAddParticipant}
+        onClose={() => {
+          setOpenAddParticipant(false);
+          setName(""); //reset progress
+          setDate("");
+          setAddress("");
+        }}
       >
-        <div class="container">
-          <a class="navbar-brand js-scroll-trigger" href="#page-top">
-            Project Vitality
-          </a>
-          <button
-            class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded"
-            type="button"
-          >
-            Menu
-            <i>
-              <MenuIcon style={{ fontSize: 20 }} />
-            </i>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-              <li class="nav-item mx-0 mx-lg-1">
-                {user?.displayName ? ( //if the user exists, show a Logout button
-                  <div className="app__loginContainer">
+        <div class="modal-dialog modal-xl">
+          <div class="modal-content">
+            <div class="modal-body text-center">
+              <div class="container">
+                <div class="row justify-content-center">
+                  <div class="col-lg-8">
+                    {/* <!-- Portfolio Modal - Title--> */}
                     <button
-                      className="border__Button nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger text-uppercase font-weight-bold  "
-                      onClick={() => auth.signOut()}
+                      class="btn btn-primary closeWindow"
+                      onClick={() => setOpenAddParticipant(false)}
                     >
-                      Logout
+                      Close Window
+                    </button>
+                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">
+                      Add Participant
+                    </h2>
+                    {/* <!-- Icon Divider--> */}
+                    <div class="divider-custom">
+                      <div class="divider-custom-line"></div>
+                      <div class="divider-custom-icon">
+                        <i>
+                          <GradeRoundedIcon style={{ fontSize: 70 }} />
+                        </i>
+                      </div>
+                      <div class="divider-custom-line"></div>
+                    </div>
+                    <div class="control-group">
+                      <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                        <input
+                          placeholder="Name of Participant"
+                          class="form-control"
+                          type="text"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                        />
+                        <p class="help-block text-danger"></p>
+                      </div>
+                    </div>
+                    <h3></h3>
+                    <div class="control-group">
+                      <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                        <input
+                          placeholder="Date of Birth"
+                          //   class="form-control"
+                          type="date"
+                          value={date}
+                          onChange={(e) => setDate(e.target.value)}
+                        />
+
+                        <p class="help-block text-danger"></p>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                        <input
+                          placeholder="Address"
+                          class="form-control"
+                          type="text"
+                          value={address}
+                          onChange={(e) => setAddress(e.target.value)}
+                        />
+                        <p class="help-block text-danger"></p>
+                      </div>
+                    </div>
+                    <p></p>
+                    <button
+                      type="submit"
+                      class="btn btn-primary btn-xl"
+                      onClick={upload}
+                    >
+                      Add Participant
                     </button>
                   </div>
-                ) : (
-                  //else, show a sign up button
-                  <div className="app__loginContainer">
-                    <button
-                      className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger text-uppercase font-weight-bold "
-                      onClick={() => setOpenSignIn(true)}
-                    >
-                      Sign In
-                    </button>
-                    {/* <button
-                      class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger text-uppercase font-weight-bold  "
-                      onClick={() => setOpen(true)}
-                    >
-                      Sign Up
-                    </button> */}
-                  </div>
-                )}
-              </li>
-            </ul>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </nav>
+      </Modal>
     </div>
   );
 }

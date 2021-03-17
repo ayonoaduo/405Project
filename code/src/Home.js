@@ -1,16 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./Home.css";
-import { auth } from "./firebase";
-import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import GradeRoundedIcon from "@material-ui/icons/GradeRounded";
-import MenuIcon from "@material-ui/icons/Menu";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import InstagramIcon from "@material-ui/icons/Instagram";
-import Button from "@material-ui/core/Button";
 import bowl from "./bowl.png";
 import bottle from "./milk bottle.png";
 import vitamins from "./vitamins.png";
@@ -53,71 +49,12 @@ function Home({
   openSignIn,
   setOpenSignIn,
 }) {
-  const [openMic, setOpenMic] = useState(false);
-  const [openBr, setOpenBr] = useState(false);
-  const [openFirst, setOpenFirst] = useState(false);
+  const [openMic, setOpenMic] = useState(false); //State to handle Micronutrient Intervention Modal
+  const [openBr, setOpenBr] = useState(false); //State to handle Breastfeeding Awareness Modal
+  const [openFirst, setOpenFirst] = useState(false); //State to handle First100Days Modal
 
   return (
     <div>
-      <nav
-        class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top"
-        id="mainNav"
-      >
-        <div class="container">
-          <a class="navbar-brand js-scroll-trigger" href="#page-top">
-            Project Vitality
-          </a>
-          <button
-            class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded"
-            type="button"
-          >
-            Menu
-            <i>
-              <MenuIcon style={{ fontSize: 20 }} />
-            </i>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-              <li class="nav-item mx-0 mx-lg-1">
-                {user?.displayName ? ( //if the user exists, show a Logout button
-                  <div className="app__loginContainer">
-                    <Button
-                      className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger text-uppercase font-weight-bold  "
-                      component={Link}
-                      to="/ParticipantPage"
-                    >
-                      Participant List
-                    </Button>
-                    <button
-                      className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger text-uppercase font-weight-bold  "
-                      onClick={() => auth.signOut()}
-                    >
-                      Logout
-                    </button>
-                  </div>
-                ) : (
-                  //else, show a sign up button
-                  <div className="app__loginContainer">
-                    <button
-                      class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger text-uppercase font-weight-bold "
-                      onClick={() => setOpenSignIn(true)}
-                    >
-                      Sign In
-                    </button>
-                    <button
-                      class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger text-uppercase font-weight-bold  "
-                      onClick={() => setOpen(true)}
-                    >
-                      Sign Up
-                    </button>
-                  </div>
-                )}
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-
       {/* Body -- Project Vitality */}
 
       <header class="masthead bg-primary text-white text-center">
@@ -170,7 +107,14 @@ function Home({
                 <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
                   <div class="portfolio-item-caption-content text-center text-white">
                     <h4>Micronutrient Intervention</h4>
-                    <a className="info">View More</a>
+                    <button
+                      className="info"
+                      onClick={() => {
+                        setOpenMic(true);
+                      }}
+                    >
+                      View More
+                    </button>
                     {/* <IconButton>
                       <AddRoundedIcon
                         className="text-white"
@@ -193,7 +137,14 @@ function Home({
                 <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
                   <div class="breastfeeding portfolio-item-caption-content text-center text-white">
                     <h4>Breastfeeding Awareness</h4>
-                    <a className="info">View More</a>
+                    <button
+                      className="info"
+                      onClick={() => {
+                        setOpenBr(true);
+                      }}
+                    >
+                      View More
+                    </button>
                   </div>
                 </div>
                 <img class="img-fluid" src={bottle} alt="" />
@@ -211,7 +162,14 @@ function Home({
                 <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
                   <div class="portfolio-item-caption-content text-center text-white">
                     <h3>First 100 days</h3>
-                    <a className="info">View More</a>
+                    <button
+                      className="info"
+                      onClick={() => {
+                        setOpenFirst(true);
+                      }}
+                    >
+                      View More
+                    </button>
                     {/* <IconButton>
                       <AddRoundedIcon
                         className="text-white"
@@ -396,6 +354,7 @@ function Home({
 
                       <br />
                       <div id="success"></div>
+
                       <button
                         type="submit"
                         class="btn btn-primary btn-xl"
@@ -403,6 +362,18 @@ function Home({
                       >
                         Sign In
                       </button>
+                      <br />
+                      <br />
+                      <span>Not yet a user? </span>
+                      <span
+                        className="signin__link font-weight-bold"
+                        onClick={() => {
+                          setOpen(true);
+                          setOpenSignIn(false);
+                        }}
+                      >
+                        Sign Up now.
+                      </span>
                     </form>
                   </div>
                 </div>
@@ -611,6 +582,8 @@ function Home({
           </div>
         </div>
       </Modal>
+
+      <Modal></Modal>
 
       {/* <!-- Footer--> */}
       <footer class="footer text-center">

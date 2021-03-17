@@ -145,6 +145,13 @@ p {
 .info:hover {
   box-shadow: 0 0 5px #fff;
 }
+.signin__link {
+  color: #1abc9c;
+}
+.signin__link:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
 /***************************************************************************************************/
 abbr[title],
 abbr[data-original-title] {

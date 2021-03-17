@@ -1,0 +1,15 @@
+.participant__info {
+  position: absolute;
+  top: 22%;
+  left: 40%;
+}
+
+.addBox {
+  cursor: pointer;
+}
+.addBox:hover {
+  color: #1abc9c;
+}
+.closeWindow {
+  margin-right: 0;
+}

@@ -1,9 +1,11 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import Home from "./Home";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ParticipantPage from "./ParticipantPage";
 import { auth } from "./firebase";
+import Navigation from "./Navigation";
+import Nav from "./Nav";
 
 function App() {
   const [user, setUser] = useState(null); //state to keep track of the user
@@ -88,47 +90,64 @@ function App() {
   };
 
   return (
-    <div>
+    <div className="App">
       <Router>
-        <Switch>
-          <Route exact path="/">
-            <Home
-              user={user}
-              setUsername={setUsername}
-              signIn={signIn}
-              signUp={signUp}
-              email={email}
-              setEmail={setEmail}
-              open={open}
-              setOpen={setOpen}
-              openSignIn={openSignIn}
-              setOpenSignIn={setOpenSignIn}
-              password={password}
-              setPassword={setPassword}
-            />
-          </Route>
-
-          <Route exact path="/Home">
-            <Home
-              user={user}
-              setUsername={setUsername}
-              signIn={signIn}
-              signUp={signUp}
-              email={email}
-              setEmail={setEmail}
-              open={open}
-              setOpen={setOpen}
-              openSignIn={openSignIn}
-              setOpenSignIn={setOpenSignIn}
-              password={password}
-              setPassword={setPassword}
-            />
-          </Route>
-
-          <Route exact path="/ParticipantPage">
-            <ParticipantPage user={user} setOpenSignIn={setOpenSignIn} />
-          </Route>
-        </Switch>
+        {/* if the user exists */}
+        {user ? (
+          <>
+            {/* signed in Navigation bar */}
+            <Navigation user={user} setOpenSignIn={setOpenSignIn} />
+            <Switch>
+              <Route exact path="/">
+                <Home
+                  user={user}
+                  setUsername={setUsername}
+                  signIn={signIn}
+                  signUp={signUp}
+                  email={email}
+                  setEmail={setEmail}
+                  open={open}
+                  setOpen={setOpen}
+                  openSignIn={openSignIn}
+                  setOpenSignIn={setOpenSignIn}
+                  password={password}
+                  setPassword={setPassword}
+                />
+              </Route>
+              <Route exact path="/ParticipantPage">
+                <ParticipantPage
+                  user={user}
+                  setOpenSignIn={setOpenSignIn}
+                  username={username}
+                />
+              </Route>
+            </Switch>
+          </>
+        ) : (
+          // if the user does not exist
+          <>
+            {/* signed out Navigation bar */}
+            <Nav user={user} setOpenSignIn={setOpenSignIn} />
+            <Switch>
+              <Route exact path="/">
+                <Home
+                  user={user}
+                  setUsername={setUsername}
+                  signIn={signIn}
+                  signUp={signUp}
+                  email={email}
+                  setEmail={setEmail}
+                  open={open}
+                  setOpen={setOpen}
+                  openSignIn={openSignIn}
+                  setOpenSignIn={setOpenSignIn}
+                  password={password}
+                  setPassword={setPassword}
+                />
+              </Route>
+            </Switch>
+          </>
+        )}
       </Router>
     </div>
   );
