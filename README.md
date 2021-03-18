@@ -23,7 +23,8 @@ The audience we intend to reach with our project are as follows:
 3. The Locals: The individuals that are part of the impacted community and thus helped by the Community Educators and UN educators. 
 
 ## Vlogs
-- MVP Progress Vlog 1
+- [MVP Progress Vlog 1](https://youtu.be/hqBPpfAcbf0)(March 17, 2021)
+
 ## License
 
 Creative Commons Share & Share Alike (CC BY-SA 4.0) https://creativecommons.org/licenses/by-sa/4.0/.
