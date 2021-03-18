@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./ParticipantPage.css";
 import AddBoxOutlinedIcon from "@material-ui/icons/AddBoxOutlined";
 import Modal from "@material-ui/core/Modal";
@@ -6,12 +6,32 @@ import calendar from "./Calendar.png";
 import GradeRoundedIcon from "@material-ui/icons/GradeRounded";
 import { db, storage } from "./firebase";
 import firebase from "firebase";
+import Participants from "./Participants";
 
 function ParticipantPage({ user }) {
   const [openAddParticipant, setOpenAddParticipant] = useState(false); //State to handle First100Days Modal
   const [name, setName] = useState("");
   const [date, setDate] = useState(new Date());
   const [address, setAddress] = useState("");
+  const [users, setUsers] = useState([]);
+
+  //useEffect runs a piece of code based on a specific
+  //condition
+  useEffect(() => {
+    //this is where the code runs
+    //snapshot is a powerful listener that will run the code when a post is made
+    db.collection("users")
+      .orderBy("name", "desc")
+      .onSnapshot((snapshot) => {
+        //everytime a new post is added, this code fires...
+        setUsers(
+          snapshot.docs.map((doc) => ({
+            id: doc.id, //the user ids
+            userr: doc.data(),
+          }))
+        );
+      });
+  }, []); //[] symbol means run the code once;
 
   const upload = () => {
     db.collection("users").add({
@@ -28,22 +48,6 @@ function ParticipantPage({ user }) {
   };
   return (
     <div>
-      <div className="participant__info">
-        <h5>Welcome, {user.displayName}</h5>
-        <h5>Who are you tracking?</h5>
-        <br />
-
-        <h5>
-          Participant List{" "}
-          <AddBoxOutlinedIcon
-            className="addBox"
-            onClick={() => {
-              setOpenAddParticipant(true);
-            }}
-          />
-        </h5>
-      </div>
-
       <Modal
         open={openAddParticipant}
         onClose={() => {
@@ -132,6 +136,40 @@ function ParticipantPage({ user }) {
           </div>
         </div>
       </Modal>
+
+      <div className="participant__info">
+        <center>
+          <h1>Welcome, {user.displayName}</h1>
+          <br></br>
+          <h5>Who are you tracking?</h5>
+          <br></br>
+          <h5>
+            Participant List
+            <AddBoxOutlinedIcon
+              className="addBox"
+              onClick={() => {
+                setOpenAddParticipant(true);
+              }}
+            />
+          </h5>
+          <br></br>
+          <div className="profilePage__posts">
+            {
+              /*loop through posts in state*/
+              users.map(({ id, userr }) => (
+                //the key allows the page to only refresh the new post, not all the posts. since each post has its own key
+                <Participants
+                  key={id}
+                  userId={id}
+                  user={user}
+                  name={userr.name}
+                  address={userr.address}
+                ></Participants>
+              ))
+            }
+          </div>
+        </center>
+      </div>
     </div>
   );
 }

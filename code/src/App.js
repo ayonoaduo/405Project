@@ -6,6 +6,7 @@ import ParticipantPage from "./ParticipantPage";
 import { auth } from "./firebase";
 import Navigation from "./Navigation";
 import Nav from "./Nav";
+import QuestionnairePage from "./QuestionnairePage";
 
 function App() {
   const [user, setUser] = useState(null); //state to keep track of the user
@@ -90,7 +91,7 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div className="app">
       <Router>
         {/* if the user exists */}
         {user ? (
@@ -120,6 +121,10 @@ function App() {
                   setOpenSignIn={setOpenSignIn}
                   username={username}
                 />
+              </Route>
+
+              <Route exact path="/QuestionnairePage">
+                <QuestionnairePage user={user} setOpenSignIn={setOpenSignIn} />
               </Route>
             </Switch>
           </>
