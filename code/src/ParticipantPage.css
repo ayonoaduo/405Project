@@ -1,7 +1,15 @@
 .participant__info {
   position: absolute;
   top: 22%;
-  left: 40%;
+  left: 35%;
+  padding: 20px;
+  margin: 50px;
+  max-width: 500px;
+  border: 5px solid #2c3e50;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .addBox {
@@ -11,5 +19,8 @@
   color: #1abc9c;
 }
 .closeWindow {
-  margin-right: 0;
+  margin-left: 81%;
+}
+.profilePage__posts {
+  justify-content: center;
 }
