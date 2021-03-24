@@ -8,13 +8,54 @@ import { db, storage } from "./firebase";
 import firebase from "firebase";
 import Participants from "./Participants";
 
-function ParticipantPage({ user }) {
+const google = (window.google = window.google ? window.google : {});
+// Load the Visualization API and the corechart package.
+google.charts.load("current", { packages: ["corechart"] });
+
+// Callback that creates and populates a data table,
+// instantiates the pie chart, passes in the data and
+// draws it.
+function drawChart() {
+  // Create the data table.
+  // Some raw data (not necessarily accurate)
+
+  var data = google.visualization.arrayToDataTable([
+    [
+      "Month",
+      "Bolivia",
+      "Ecuador",
+      "Madagascar",
+      "Papua New Guinea",
+      "Rwanda",
+      "Average",
+    ],
+    ["2004/05", 902, 938, 522, 998, 450, 614.6],
+    ["2005/06", 135, 1120, 599, 1268, 288, 682],
+    ["2006/07", 157, 1167, 587, 807, 397, 623],
+    ["2007/08", 139, 1110, 615, 968, 215, 609.4],
+    ["2008/09", 136, 691, 629, 1026, 366, 569.6],
+  ]);
+
+  var options = {
+    title: "Monthly Coffee Production by Country",
+    vAxis: { title: "Rating" },
+    hAxis: { title: "Month" },
+    seriesType: "bars",
+    series: { 5: { type: "line" } },
+  };
+
+  var chart = new google.visualization.ComboChart(
+    document.getElementById("chart_div")
+  );
+  chart.draw(data, options);
+}
+
+function ParticipantPage({ user, name, setName, uid, setUid }) {
   const [openAddParticipant, setOpenAddParticipant] = useState(false); //State to handle First100Days Modal
-  const [name, setName] = useState("");
   const [date, setDate] = useState(new Date());
   const [address, setAddress] = useState("");
   const [users, setUsers] = useState([]);
-
+  const [num, setNum] = useState("");
   //useEffect runs a piece of code based on a specific
   //condition
   useEffect(() => {
@@ -40,12 +81,15 @@ function ParticipantPage({ user }) {
       date: date,
       address: address,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      num: num,
     });
     setOpenAddParticipant(false);
     setName(""); //reset progress
     setDate("");
     setAddress("");
+    setNum("");
   };
+
   return (
     <div>
       <Modal
@@ -100,7 +144,7 @@ function ParticipantPage({ user }) {
                       <div class="form-group floating-label-form-group controls mb-0 pb-2">
                         <input
                           placeholder="Date of Birth"
-                          //   class="form-control"
+                          class="form-control"
                           type="date"
                           value={date}
                           onChange={(e) => setDate(e.target.value)}
@@ -117,6 +161,18 @@ function ParticipantPage({ user }) {
                           type="text"
                           value={address}
                           onChange={(e) => setAddress(e.target.value)}
+                        />
+                        <p class="help-block text-danger"></p>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                        <input
+                          placeholder="Num"
+                          class="form-control"
+                          type="text"
+                          value={num}
+                          onChange={(e) => setNum(e.target.value)}
                         />
                         <p class="help-block text-danger"></p>
                       </div>
@@ -159,7 +215,9 @@ function ParticipantPage({ user }) {
               users.map(({ id, userr }) => (
                 //the key allows the page to only refresh the new post, not all the posts. since each post has its own key
                 <Participants
-                  key={id}
+                  // key={id}
+                  setUid={setUid}
+                  uid={uid}
                   userId={id}
                   user={user}
                   name={userr.name}
@@ -167,6 +225,12 @@ function ParticipantPage({ user }) {
                 ></Participants>
               ))
             }
+          </div>
+
+          <div id="chart_div">
+            <button onClick={google.charts.setOnLoadCallback(drawChart)}>
+              Draw Chart
+            </button>
           </div>
         </center>
       </div>

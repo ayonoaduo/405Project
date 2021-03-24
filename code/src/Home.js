@@ -52,7 +52,6 @@ function Home({
   const [openMic, setOpenMic] = useState(false); //State to handle Micronutrient Intervention Modal
   const [openBr, setOpenBr] = useState(false); //State to handle Breastfeeding Awareness Modal
   const [openFirst, setOpenFirst] = useState(false); //State to handle First100Days Modal
-
   return (
     <div>
       {/* Body -- Project Vitality */}

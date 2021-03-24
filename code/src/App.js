@@ -6,7 +6,8 @@ import ParticipantPage from "./ParticipantPage";
 import { auth } from "./firebase";
 import Navigation from "./Navigation";
 import Nav from "./Nav";
-import QuestionnairePage from "./QuestionnairePage";
+import QuestionnairePage from "./components/QuestionnairePage";
+import Reports from "./Reports";
 
 function App() {
   const [user, setUser] = useState(null); //state to keep track of the user
@@ -15,6 +16,8 @@ function App() {
   const [password, setPassword] = useState("");
   const [open, setOpen] = useState(false);
   const [openSignIn, setOpenSignIn] = useState(false);
+  const [name, setName] = useState("");
+  const [uid, setUid] = useState("");
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
@@ -120,11 +123,25 @@ function App() {
                   user={user}
                   setOpenSignIn={setOpenSignIn}
                   username={username}
+                  name={name}
+                  setName={setName}
+                  uid={uid}
+                  setUid={setUid}
                 />
               </Route>
 
-              <Route exact path="/QuestionnairePage">
-                <QuestionnairePage user={user} setOpenSignIn={setOpenSignIn} />
+              <Route exact path="/ParticipantPage/QuestionnairePage">
+                <QuestionnairePage
+                  user={user}
+                  setOpenSignIn={setOpenSignIn}
+                  name={name}
+                  uid={uid}
+                  setUid={setUid}
+                />
+              </Route>
+
+              <Route exact path="/Reports">
+                <Reports user={user} name={name} />
               </Route>
             </Switch>
           </>
