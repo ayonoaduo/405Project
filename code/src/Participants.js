@@ -11,6 +11,7 @@ import Button from "@material-ui/core/Button";
 import GradeRoundedIcon from "@material-ui/icons/GradeRounded";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
+import { findAllByDisplayValue } from "@testing-library/react";
 
 /*Styling for modal. Code from material-ui.com*/
 function getModalStyle() {
@@ -52,6 +53,9 @@ function Participants({ uid, setUid, userId, name, address }) {
   const [questModal6, setQuestModal6] = useState(false);
 
   const [progressModal, setProgressModal] = useState(false);
+  const [chooseOptModal, setchooseOptModal] = useState(false);
+
+  const [babyAge, setBabyAge] = useState("");
 
   const [comment1, setComment1] = useState("");
   const [comment2, setComment2] = useState("");
@@ -80,6 +84,7 @@ function Participants({ uid, setUid, userId, name, address }) {
     //event.preventDefault();
 
     db.collection("users").doc(userId).collection("reports").add({
+      babyAge: babyAge,
       value1: value1,
       comment1: comment1,
       value2: value2,
@@ -93,6 +98,18 @@ function Participants({ uid, setUid, userId, name, address }) {
       value6: value6,
       comment6: comment6,
     });
+    setValue1(0);
+    setValue2(0);
+    setValue3(0);
+    setValue4(0);
+    setValue5(0);
+    setValue6(0);
+    setComment1("");
+    setComment2("");
+    setComment3("");
+    setComment4("");
+    setComment5("");
+    setComment6("");
   };
   return (
     <div className="participants">
@@ -125,6 +142,7 @@ function Participants({ uid, setUid, userId, name, address }) {
                     >
                       {name}
                     </h2>
+
                     <div class="divider-custom">
                       <div class="divider-custom-line"></div>
                       <div class="divider-custom-icon">
@@ -132,6 +150,10 @@ function Participants({ uid, setUid, userId, name, address }) {
                       </div>
                       <div class="divider-custom-line"></div>
                     </div>
+
+                    <h3>Profile Page</h3>
+
+                    <br />
                     <form id="signupForm" name="sentMessage">
                       <h3></h3>
                       <div class="control-group">
@@ -154,12 +176,21 @@ function Participants({ uid, setUid, userId, name, address }) {
 
                       <div class="control-group">
                         <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                          <Button
+                            className=" text-uppercase font-weight-bold bg-primary text-white rounded"
+                            classes={{ label: "button__styling" }}
+                            onClick={() => {
+                              setPartProfileModal(false);
+                              setchooseOptModal(true);
+                            }}
+                          >
+                            Complete Questionnaire
+                          </Button>
                           <p class="help-block text-danger"></p>
                         </div>
                       </div>
 
                       <br />
-                      <div id="success"></div>
                       <br />
                       <br />
                     </form>
@@ -171,6 +202,114 @@ function Participants({ uid, setUid, userId, name, address }) {
         </div>
       </Modal>
 
+      {/* Choose Option Modal */}
+      <Modal
+        open={chooseOptModal}
+        onClose={() => {
+          setchooseOptModal(false);
+          setValue1(0);
+          setValue2(0);
+          setValue3(0);
+          setValue4(0);
+          setValue5(0);
+          setValue6(0);
+          setComment1("");
+          setComment2("");
+          setComment3("");
+          setComment4("");
+          setComment5("");
+          setComment6("");
+        }}
+      >
+        <div class="modal-dialog modal-xl" role="document">
+          <div class="modal-content">
+            <div class="modal-body text-center">
+              <div class="container">
+                <div class="row justify-content-center">
+                  <div class="col-lg-8">
+                    <h2
+                      class="portfolio-modal-title text-secondary text-uppercase mb-0"
+                      id="portfolioModal1Label"
+                    >
+                      {name}
+                    </h2>
+                    <div class="divider-custom">
+                      <div class="divider-custom-line"></div>
+                      <div class="divider-custom-icon">
+                        <GradeRoundedIcon style={{ fontSize: 40 }} />
+                      </div>
+                      <div class="divider-custom-line"></div>
+                    </div>
+                    <form id="signupForm" name="sentMessage">
+                      <h3></h3>
+                      <div class="control-group">
+                        <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                          <Button
+                            className=" text-uppercase font-weight-bold bg-primary text-white rounded"
+                            classes={{ label: "button__styling" }}
+                            onClick={() => {
+                              setPartProfileModal(false);
+                              setchooseOptModal(false);
+                              setQuestModal1(true);
+                            }}
+                            value={babyAge}
+                            onChange={(e) => setBabyAge(e.target.value)}
+                          >
+                            0 - 6 Months
+                          </Button>
+                          <p class="help-block text-danger"></p>
+                        </div>
+                      </div>
+
+                      <h3></h3>
+
+                      <div class="control-group">
+                        <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                          <Button
+                            className=" text-uppercase font-weight-bold bg-primary text-white rounded"
+                            classes={{ label: "button__styling" }}
+                            onClick={() => {
+                              setPartProfileModal(false);
+                              setchooseOptModal(false);
+                              setQuestModal1(true);
+                            }}
+                            value={"babyAge"}
+                            onChange={(e) => setBabyAge(e.target.value)}
+                          >
+                            6 - 18 Months
+                          </Button>
+                          <p class="help-block text-danger"></p>
+                        </div>
+                      </div>
+                      <h3></h3>
+                      <div class="control-group">
+                        <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                          <Button
+                            className=" text-uppercase font-weight-bold bg-primary text-white rounded"
+                            classes={{ label: "button__styling" }}
+                            onClick={() => {
+                              setPartProfileModal(false);
+                              setchooseOptModal(false);
+                              setQuestModal1(true);
+                            }}
+                            value={babyAge}
+                            onChange={(e) => setBabyAge(e.target.value)}
+                          >
+                            18 Onwards
+                          </Button>
+                          <p class="help-block text-danger"></p>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Question 1 */}
       <Modal
         open={questModal1}
         onClose={() => {
@@ -246,32 +385,35 @@ function Participants({ uid, setUid, userId, name, address }) {
                           <br />
                         </div>
                       </div>
-                      <Button
-                        className="text-uppercase font-weight-bold bg-primary text-white"
-                        classes={{ label: "questionButton__styling" }}
-                        onClick={() => {
-                          setPartProfileModal(true);
-                          setQuestModal1(false);
-                        }}
-                        style={{ float: left }}
-                      >
-                        Back
-                        <NavigateBeforeIcon />
-                      </Button>
-                      <br />
-                      <Button
-                        className="text-uppercase font-weight-bold bg-primary text-white"
-                        classes={{ label: "questionButton__styling" }}
-                        onClick={() => {
-                          setPartProfileModal(false);
-                          setQuestModal1(false);
-                          setQuestModal2(true);
-                        }}
-                      >
-                        Next
-                        <NavigateNextIcon />
-                      </Button>
-                      <h3></h3>
+                      <div className="left_align">
+                        <Button
+                          className="text-uppercase font-weight-bold bg-primary text-white"
+                          classes={{ label: "questionBackButton__styling" }}
+                          onClick={() => {
+                            setPartProfileModal(true);
+                            setQuestModal1(false);
+                          }}
+                        >
+                          Back
+                          <NavigateBeforeIcon />
+                        </Button>
+                        <br />
+                      </div>
+                      <div className="right_align">
+                        <Button
+                          className="text-uppercase font-weight-bold bg-primary text-white"
+                          classes={{ label: "questionButton__styling" }}
+                          onClick={() => {
+                            setPartProfileModal(false);
+                            setQuestModal1(false);
+                            setQuestModal2(true);
+                          }}
+                        >
+                          Next
+                          <NavigateNextIcon />
+                        </Button>
+                        <h3></h3>
+                      </div>
                     </form>
                   </div>
                 </div>
@@ -281,6 +423,7 @@ function Participants({ uid, setUid, userId, name, address }) {
         </div>
       </Modal>
 
+      {/* Question 2 */}
       <Modal
         open={questModal2}
         onClose={() => {
@@ -355,20 +498,37 @@ function Participants({ uid, setUid, userId, name, address }) {
                           <br />
                         </div>
                       </div>
-                      <Button
-                        className="text-uppercase font-weight-bold bg-primary text-white"
-                        classes={{ label: "questionButton__styling" }}
-                        onClick={() => {
-                          setPartProfileModal(false);
-                          setQuestModal1(false);
-                          setQuestModal2(false);
-                          setQuestModal3(true);
-                        }}
-                      >
-                        Next
-                        <NavigateNextIcon />
-                      </Button>
-                      <h3></h3>
+                      <div className="left_align">
+                        <Button
+                          className="text-uppercase font-weight-bold bg-primary text-white"
+                          classes={{ label: "questionBackButton__styling" }}
+                          onClick={() => {
+                            setPartProfileModal(false);
+                            setQuestModal1(true);
+                            setQuestModal2(false);
+                          }}
+                        >
+                          Back
+                          <NavigateBeforeIcon />
+                        </Button>
+                        <br />
+                      </div>
+                      <div className="right_align">
+                        <Button
+                          className="text-uppercase font-weight-bold bg-primary text-white"
+                          classes={{ label: "questionButton__styling" }}
+                          onClick={() => {
+                            setPartProfileModal(false);
+                            setQuestModal1(false);
+                            setQuestModal2(false);
+                            setQuestModal3(true);
+                          }}
+                        >
+                          Next
+                          <NavigateNextIcon />
+                        </Button>
+                        <h3></h3>
+                      </div>
                     </form>
                   </div>
                 </div>
@@ -378,6 +538,7 @@ function Participants({ uid, setUid, userId, name, address }) {
         </div>
       </Modal>
 
+      {/* Question 3 */}
       <Modal
         open={questModal3}
         onClose={() => {
@@ -452,21 +613,40 @@ function Participants({ uid, setUid, userId, name, address }) {
                           <br />
                         </div>
                       </div>
-                      <Button
-                        className="text-uppercase font-weight-bold bg-primary text-white"
-                        classes={{ label: "questionButton__styling" }}
-                        onClick={() => {
-                          setPartProfileModal(false);
-                          setQuestModal1(false);
-                          setQuestModal2(false);
-                          setQuestModal3(false);
-                          setQuestModal4(true);
-                        }}
-                      >
-                        Next
-                        <NavigateNextIcon />
-                      </Button>
-                      <h3></h3>
+                      <div className="left_align">
+                        <Button
+                          className="text-uppercase font-weight-bold bg-primary text-white"
+                          classes={{ label: "questionBackButton__styling" }}
+                          onClick={() => {
+                            setPartProfileModal(false);
+                            setQuestModal1(false);
+                            setQuestModal2(true);
+                            setQuestModal3(false);
+                          }}
+                        >
+                          Back
+                          <NavigateBeforeIcon />
+                        </Button>
+                        <br />
+                      </div>
+                      <div className="right_align">
+                        <Button
+                          className="text-uppercase font-weight-bold bg-primary text-white"
+                          classes={{ label: "questionButton__styling" }}
+                          onClick={() => {
+                            setPartProfileModal(false);
+                            setQuestModal1(false);
+                            setQuestModal2(false);
+                            setQuestModal3(false);
+                            setQuestModal4(true);
+                          }}
+                        >
+                          Next
+                          <NavigateNextIcon />
+                        </Button>
+
+                        <h3></h3>
+                      </div>
                     </form>
                   </div>
                 </div>
@@ -476,6 +656,7 @@ function Participants({ uid, setUid, userId, name, address }) {
         </div>
       </Modal>
 
+      {/* Question 4 */}
       <Modal
         open={questModal4}
         onClose={() => {
@@ -550,22 +731,41 @@ function Participants({ uid, setUid, userId, name, address }) {
                           <br />
                         </div>
                       </div>
-                      <Button
-                        className="text-uppercase font-weight-bold bg-primary text-white"
-                        classes={{ label: "questionButton__styling" }}
-                        onClick={() => {
-                          setPartProfileModal(false);
-                          setQuestModal1(false);
-                          setQuestModal2(false);
-                          setQuestModal3(false);
-                          setQuestModal4(false);
-                          setQuestModal5(true);
-                        }}
-                      >
-                        Next
-                        <NavigateNextIcon />
-                      </Button>
-                      <h3></h3>
+                      <div className="left_align">
+                        <Button
+                          className="text-uppercase font-weight-bold bg-primary text-white"
+                          classes={{ label: "questionBackButton__styling" }}
+                          onClick={() => {
+                            setPartProfileModal(false);
+                            setQuestModal1(false);
+                            setQuestModal2(false);
+                            setQuestModal3(true);
+                            setQuestModal4(false);
+                          }}
+                        >
+                          Back
+                          <NavigateBeforeIcon />
+                        </Button>
+                        <br />
+                      </div>
+                      <div className="right_align">
+                        <Button
+                          className="text-uppercase font-weight-bold bg-primary text-white"
+                          classes={{ label: "questionButton__styling" }}
+                          onClick={() => {
+                            setPartProfileModal(false);
+                            setQuestModal1(false);
+                            setQuestModal2(false);
+                            setQuestModal3(false);
+                            setQuestModal4(false);
+                            setQuestModal5(true);
+                          }}
+                        >
+                          Next
+                          <NavigateNextIcon />
+                        </Button>
+                        <h3></h3>
+                      </div>
                     </form>
                   </div>
                 </div>
@@ -574,6 +774,8 @@ function Participants({ uid, setUid, userId, name, address }) {
           </div>
         </div>
       </Modal>
+
+      {/* Question 5 */}
 
       <Modal
         open={questModal5}
@@ -649,23 +851,43 @@ function Participants({ uid, setUid, userId, name, address }) {
                           <br />
                         </div>
                       </div>
-                      <Button
-                        className="text-uppercase font-weight-bold bg-primary text-white"
-                        classes={{ label: "questionButton__styling" }}
-                        onClick={() => {
-                          setPartProfileModal(false);
-                          setQuestModal1(false);
-                          setQuestModal2(false);
-                          setQuestModal3(false);
-                          setQuestModal4(false);
-                          setQuestModal5(false);
-                          setQuestModal6(true);
-                        }}
-                      >
-                        Next
-                        <NavigateNextIcon />
-                      </Button>
-                      <h3></h3>
+                      <div className="left_align">
+                        <Button
+                          className="text-uppercase font-weight-bold bg-primary text-white"
+                          classes={{ label: "questionBackButton__styling" }}
+                          onClick={() => {
+                            setPartProfileModal(false);
+                            setQuestModal1(false);
+                            setQuestModal2(false);
+                            setQuestModal3(false);
+                            setQuestModal4(true);
+                            setQuestModal5(false);
+                          }}
+                        >
+                          Back
+                          <NavigateBeforeIcon />
+                        </Button>
+                        <br />
+                      </div>
+                      <div className="right_align">
+                        <Button
+                          className="text-uppercase font-weight-bold bg-primary text-white"
+                          classes={{ label: "questionButton__styling" }}
+                          onClick={() => {
+                            setPartProfileModal(false);
+                            setQuestModal1(false);
+                            setQuestModal2(false);
+                            setQuestModal3(false);
+                            setQuestModal4(false);
+                            setQuestModal5(false);
+                            setQuestModal6(true);
+                          }}
+                        >
+                          Next
+                          <NavigateNextIcon />
+                        </Button>
+                        <h3></h3>
+                      </div>
                     </form>
                   </div>
                 </div>
@@ -675,6 +897,7 @@ function Participants({ uid, setUid, userId, name, address }) {
         </div>
       </Modal>
 
+      {/* Question 6 */}
       <Modal
         open={questModal6}
         onClose={() => {
@@ -749,23 +972,44 @@ function Participants({ uid, setUid, userId, name, address }) {
                           <br />
                         </div>
                       </div>
-                      <Button
-                        className="text-uppercase font-weight-bold bg-primary text-white"
-                        classes={{ label: "questionButton__styling" }}
-                        onClick={() => {
-                          setPartProfileModal(false);
-                          setQuestModal1(false);
-                          setQuestModal2(false);
-                          setQuestModal3(false);
-                          setQuestModal4(false);
-                          setQuestModal5(false);
-                          setQuestModal6(false);
-                          postReport();
-                        }}
-                      >
-                        Submit
-                      </Button>
-                      <h3></h3>
+                      <div className="left_align">
+                        <Button
+                          className="text-uppercase font-weight-bold bg-primary text-white"
+                          classes={{ label: "questionBackButton__styling" }}
+                          onClick={() => {
+                            setPartProfileModal(false);
+                            setQuestModal1(false);
+                            setQuestModal2(false);
+                            setQuestModal3(false);
+                            setQuestModal4(false);
+                            setQuestModal5(true);
+                            setQuestModal6(false);
+                          }}
+                        >
+                          Back
+                          <NavigateBeforeIcon />
+                        </Button>
+                        <br />
+                      </div>
+                      <div className="right_align">
+                        <Button
+                          className="text-uppercase font-weight-bold bg-primary text-white"
+                          classes={{ label: "questionButton__styling" }}
+                          onClick={() => {
+                            setPartProfileModal(false);
+                            setQuestModal1(false);
+                            setQuestModal2(false);
+                            setQuestModal3(false);
+                            setQuestModal4(false);
+                            setQuestModal5(false);
+                            setQuestModal6(false);
+                            postReport();
+                          }}
+                        >
+                          Submit
+                        </Button>
+                        <h3></h3>
+                      </div>
                     </form>
                   </div>
                 </div>

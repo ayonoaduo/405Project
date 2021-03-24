@@ -7,7 +7,7 @@ import GradeRoundedIcon from "@material-ui/icons/GradeRounded";
 import { db, storage } from "./firebase";
 import firebase from "firebase";
 import Participants from "./Participants";
-
+import CloseIcon from "@material-ui/icons/Close";
 const google = (window.google = window.google ? window.google : {});
 // Load the Visualization API and the corechart package.
 google.charts.load("current", { packages: ["corechart"] });
@@ -55,7 +55,6 @@ function ParticipantPage({ user, name, setName, uid, setUid }) {
   const [date, setDate] = useState(new Date());
   const [address, setAddress] = useState("");
   const [users, setUsers] = useState([]);
-  const [num, setNum] = useState("");
   //useEffect runs a piece of code based on a specific
   //condition
   useEffect(() => {
@@ -81,13 +80,11 @@ function ParticipantPage({ user, name, setName, uid, setUid }) {
       date: date,
       address: address,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      num: num,
     });
     setOpenAddParticipant(false);
     setName(""); //reset progress
     setDate("");
     setAddress("");
-    setNum("");
   };
 
   return (
@@ -112,7 +109,7 @@ function ParticipantPage({ user, name, setName, uid, setUid }) {
                       class="btn btn-primary closeWindow"
                       onClick={() => setOpenAddParticipant(false)}
                     >
-                      Close Window
+                      <CloseIcon />
                     </button>
                     <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">
                       Add Participant
@@ -165,18 +162,7 @@ function ParticipantPage({ user, name, setName, uid, setUid }) {
                         <p class="help-block text-danger"></p>
                       </div>
                     </div>
-                    <div class="control-group">
-                      <div class="form-group floating-label-form-group controls mb-0 pb-2">
-                        <input
-                          placeholder="Num"
-                          class="form-control"
-                          type="text"
-                          value={num}
-                          onChange={(e) => setNum(e.target.value)}
-                        />
-                        <p class="help-block text-danger"></p>
-                      </div>
-                    </div>
+
                     <p></p>
                     <button
                       type="submit"
