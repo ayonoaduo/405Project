@@ -24,3 +24,7 @@
 .profilePage__posts {
   justify-content: center;
 }
+.chart_div {
+  top: 35%;
+  left: 20%;
+}
