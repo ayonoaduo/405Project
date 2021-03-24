@@ -1,5 +1,10 @@
 .button__styling {
   text-align: center;
 }
-.questionButton__styling {
+
+.left_align {
+  float: left;
+}
+.right_align {
+  float: right;
 }
