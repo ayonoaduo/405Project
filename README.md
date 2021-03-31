@@ -8,19 +8,15 @@ Studies show that malnutrition can be significantly prevented through implementi
 
 ## Reason
 
-With our website, we hope to educate the correct personnel in the suffering communities who in turn will educate members of the community on proper practices to slowly eradicate the problem of malnutrition. Our website will allow for further collaboration with our Northstar customers once they get involved. They will be able to provide an update on each section of the website as new research, statistics, and modules are created.  
+With our PWA, we hope to create a tool for the community workers that allows them to see and track the progress of each mother and child in their community.  
 
 ## Impact
 
-With Project Vitality we hope to create communities that have the proper knowledge to effectively sustain adequate nutrition.
+The data collected through our PWA would help the United Nations in understanding how the information that is being taught on breastfeeding is being received and implemented through different communities all around the world. 
 
 ## Who
 
-The audience we intend to reach with our project are as follows:
-
-1. UN Educators: Individuals that contribute to research, module creation, and teaching of that information to the community educators
-2. Community Educators: Typically live in the community that is affected. They are taught the relevant info by the UN educators and given the appropriate tools to help the communities. The community educators also track the progress of the community on a regular basis and report back to the UN Educators on what’s working and what's not so the UN educators can adjust education and plan of actions accordingly.
-3. The Locals: The individuals that are part of the impacted community and thus helped by the Community Educators and UN educators. 
+The audience we intend to reach with our project is the community workers. This PWA will help them track the progress of their own communities and report back the data to their supervisors to request more resources. 
 
 ## Vlogs
 - [MVP Progress Vlog 1](https://youtu.be/hqBPpfAcbf0) (March 17, 2021)
