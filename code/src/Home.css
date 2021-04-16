@@ -152,6 +152,7 @@ p {
   cursor: pointer;
   text-decoration: underline;
 }
+
 /***************************************************************************************************/
 abbr[title],
 abbr[data-original-title] {
@@ -5965,7 +5966,7 @@ a.close.disabled {
 }
 @media (min-width: 1200px) {
   .modal-xl {
-    max-width: 1140px;
+    max-width: 550px;
   }
 }
 .tooltip {

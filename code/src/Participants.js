@@ -1,40 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Participants.css";
-import { makeStyles } from "@material-ui/core/styles";
 import { db } from "./firebase";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import Modal from "@material-ui/core/Modal";
-import "./components/QuestionnairePage.css";
-import { Link } from "react-router-dom";
+import "./QuestionnairePage.css";
+import firebase from "firebase";
 import Button from "@material-ui/core/Button";
 import GradeRoundedIcon from "@material-ui/icons/GradeRounded";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
-import { findAllByDisplayValue } from "@testing-library/react";
+import Reports from "./Reports";
+import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
+import CloseIcon from "@material-ui/icons/Close";
+import Report2 from "./Report2";
+import Chart from "react-google-charts";
 
-/*Styling for modal. Code from material-ui.com*/
-function getModalStyle() {
-  const top = 50;
-  const left = 50;
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
-}
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    position: "absolute",
-    width: 350,
-    backgroundColor: theme.palette.background.paper,
-    border: "2px solid #000",
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-    outline: "none",
-  },
-}));
 function Participants({ uid, setUid, userId, name, address }) {
   const [height, setHeight] = useState("");
   const [value1, setValue1] = useState(0);
@@ -43,7 +24,6 @@ function Participants({ uid, setUid, userId, name, address }) {
   const [value4, setValue4] = useState(0);
   const [value5, setValue5] = useState(0);
   const [value6, setValue6] = useState(0);
-  const [modalStyle] = useState(getModalStyle);
   const [partProfileModal, setPartProfileModal] = useState(false);
   const [questModal1, setQuestModal1] = useState(false);
   const [questModal2, setQuestModal2] = useState(false);
@@ -53,7 +33,13 @@ function Participants({ uid, setUid, userId, name, address }) {
   const [questModal6, setQuestModal6] = useState(false);
 
   const [progressModal, setProgressModal] = useState(false);
+  const [progress2Modal, setProgress2Modal] = useState(false);
+
+  const [infoModal, setInfoModal] = useState(false);
+
   const [chooseOptModal, setchooseOptModal] = useState(false);
+
+  const [average, setAverage] = useState("");
 
   const [babyAge, setBabyAge] = useState("");
 
@@ -63,8 +49,8 @@ function Participants({ uid, setUid, userId, name, address }) {
   const [comment4, setComment4] = useState("");
   const [comment5, setComment5] = useState("");
   const [comment6, setComment6] = useState("");
-  const classes = useStyles();
 
+  const [reports, setReports] = useState([]); //keep track of the comments
   const heightMarks = {
     0: "0",
     1: "1",
@@ -78,6 +64,23 @@ function Participants({ uid, setUid, userId, name, address }) {
     9: "9",
     10: "10",
   };
+  useEffect(() => {
+    //this is where the code runs
+    //snapshot is a powerful listener that will run the code when a post is made
+    db.collection("users")
+      .doc(userId)
+      .collection("reports")
+      .orderBy("timestamp", "desc")
+      .onSnapshot((snapshot) => {
+        //everytime a new post is added, this code fires...
+        setReports(
+          snapshot.docs.map((doc) => ({
+            reportId: doc.id, //the user ids
+            reportss: doc.data(),
+          }))
+        );
+      });
+  }, []); //[] symbol means run the code once;
 
   //function that submits comment into database for a specific post
   const postReport = (event) => {
@@ -85,19 +88,21 @@ function Participants({ uid, setUid, userId, name, address }) {
 
     db.collection("users").doc(userId).collection("reports").add({
       babyAge: babyAge,
-      value1: value1,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       comment1: comment1,
-      value2: value2,
       comment2: comment2,
-      value3: value3,
       comment3: comment3,
-      value4: value4,
       comment4: comment4,
-      value5: value5,
       comment5: comment5,
-      value6: value6,
       comment6: comment6,
+      value1: value1,
+      value2: value2,
+      value3: value3,
+      value4: value4,
+      value5: value5,
+      value6: value6,
     });
+
     setValue1(0);
     setValue2(0);
     setValue3(0);
@@ -111,10 +116,28 @@ function Participants({ uid, setUid, userId, name, address }) {
     setComment5("");
     setComment6("");
   };
+  // FLAGS
+  var flag1, flag2, flag3, flag4, flag5, flag6, total;
+
+  //array of numbers for all questions
+  const numbers1 = new Array();
+
+  const numbers2 = new Array();
+  const numbers3 = new Array();
+  const numbers4 = new Array();
+  const numbers5 = new Array();
+  const numbers6 = new Array();
+  //states for average calculation for all questions
+  const [solution1, setSolution1] = useState(0);
+  const [solution2, setSolution2] = useState(0);
+  const [solution3, setSolution3] = useState(0);
+  const [solution4, setSolution4] = useState(0);
+  const [solution5, setSolution5] = useState(0);
+  const [solution6, setSolution6] = useState(0);
+
   return (
     <div className="participants">
       <Button
-        component={Link}
         onClick={() => setPartProfileModal(true)}
         className=" text-uppercase font-weight-bold bg-primary text-white rounded"
         classes={{ label: "button__styling" }}
@@ -151,7 +174,7 @@ function Participants({ uid, setUid, userId, name, address }) {
                       <div class="divider-custom-line"></div>
                     </div>
 
-                    <h3>Profile Page</h3>
+                    <h3>Profile</h3>
 
                     <br />
                     <form id="signupForm" name="sentMessage">
@@ -163,6 +186,7 @@ function Participants({ uid, setUid, userId, name, address }) {
                             classes={{ label: "button__styling" }}
                             onClick={() => {
                               setPartProfileModal(false);
+                              setchooseOptModal(false);
                               setProgressModal(true);
                             }}
                           >
@@ -171,9 +195,7 @@ function Participants({ uid, setUid, userId, name, address }) {
                           <p class="help-block text-danger"></p>
                         </div>
                       </div>
-
                       <h3></h3>
-
                       <div class="control-group">
                         <div class="form-group floating-label-form-group controls mb-0 pb-2">
                           <Button
@@ -240,20 +262,21 @@ function Participants({ uid, setUid, userId, name, address }) {
                       </div>
                       <div class="divider-custom-line"></div>
                     </div>
+                    <h3>What is the baby's age?</h3>
+                    <br />
                     <form id="signupForm" name="sentMessage">
                       <h3></h3>
                       <div class="control-group">
                         <div class="form-group floating-label-form-group controls mb-0 pb-2">
                           <Button
-                            className=" text-uppercase font-weight-bold bg-primary text-white rounded"
+                            className="text-uppercase font-weight-bold bg-primary text-white rounded"
                             classes={{ label: "button__styling" }}
                             onClick={() => {
                               setPartProfileModal(false);
                               setchooseOptModal(false);
                               setQuestModal1(true);
+                              setBabyAge("0 - 6 Months");
                             }}
-                            value={babyAge}
-                            onChange={(e) => setBabyAge(e.target.value)}
                           >
                             0 - 6 Months
                           </Button>
@@ -272,9 +295,8 @@ function Participants({ uid, setUid, userId, name, address }) {
                               setPartProfileModal(false);
                               setchooseOptModal(false);
                               setQuestModal1(true);
+                              setBabyAge("6 - 18 Months");
                             }}
-                            value={"babyAge"}
-                            onChange={(e) => setBabyAge(e.target.value)}
                           >
                             6 - 18 Months
                           </Button>
@@ -291,9 +313,8 @@ function Participants({ uid, setUid, userId, name, address }) {
                               setPartProfileModal(false);
                               setchooseOptModal(false);
                               setQuestModal1(true);
+                              setBabyAge("18 Onwards");
                             }}
-                            value={babyAge}
-                            onChange={(e) => setBabyAge(e.target.value)}
                           >
                             18 Onwards
                           </Button>
@@ -394,9 +415,10 @@ function Participants({ uid, setUid, userId, name, address }) {
                             setQuestModal1(false);
                           }}
                         >
-                          Back
                           <NavigateBeforeIcon />
+                          Back
                         </Button>
+                        <br />
                         <br />
                       </div>
                       <div className="right_align">
@@ -508,8 +530,8 @@ function Participants({ uid, setUid, userId, name, address }) {
                             setQuestModal2(false);
                           }}
                         >
-                          Back
                           <NavigateBeforeIcon />
+                          Back
                         </Button>
                         <br />
                       </div>
@@ -624,8 +646,8 @@ function Participants({ uid, setUid, userId, name, address }) {
                             setQuestModal3(false);
                           }}
                         >
-                          Back
                           <NavigateBeforeIcon />
+                          Back
                         </Button>
                         <br />
                       </div>
@@ -743,8 +765,8 @@ function Participants({ uid, setUid, userId, name, address }) {
                             setQuestModal4(false);
                           }}
                         >
-                          Back
                           <NavigateBeforeIcon />
+                          Back
                         </Button>
                         <br />
                       </div>
@@ -819,7 +841,8 @@ function Participants({ uid, setUid, userId, name, address }) {
                       <div class="control-group">
                         <div class="form-group floating-label-form-group controls mb-0 pb-2">
                           <h5 className="questions__styling">
-                            5. Rate the baby's appetite with 10 being the best.
+                            5. Rate the mother's appetite with 10 being the
+                            best.
                           </h5>
                           <Slider
                             defaultValue={0}
@@ -864,8 +887,8 @@ function Participants({ uid, setUid, userId, name, address }) {
                             setQuestModal5(false);
                           }}
                         >
-                          Back
                           <NavigateBeforeIcon />
+                          Back
                         </Button>
                         <br />
                       </div>
@@ -940,7 +963,7 @@ function Participants({ uid, setUid, userId, name, address }) {
                       <div class="control-group">
                         <div class="form-group floating-label-form-group controls mb-0 pb-2">
                           <h5 className="questions__styling">
-                            6. Rate the quality of supplemenetray foods if any.
+                            6. Rate the quality of supplementary foods if any.
                           </h5>
                           <Slider
                             defaultValue={0}
@@ -986,8 +1009,8 @@ function Participants({ uid, setUid, userId, name, address }) {
                             setQuestModal6(false);
                           }}
                         >
-                          Back
                           <NavigateBeforeIcon />
+                          Back
                         </Button>
                         <br />
                       </div>
@@ -1011,6 +1034,293 @@ function Participants({ uid, setUid, userId, name, address }) {
                         <h3></h3>
                       </div>
                     </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Modal>
+
+      <Modal //Participant Profile
+        open={progressModal} //state to keep track if its open
+        onClose={() => {
+          setProgressModal(false);
+        }} //onClose method. closes the model when anywhere else on the screen is clicked
+      >
+        <div
+          class="modal-dialog modal-xl  modal-dialog-scrollable "
+          role="document"
+        >
+          <div class="modal-content">
+            <div class="modal-body text-center">
+              <div class="container">
+                <div class="row justify-content-center ">
+                  <div class="col-lg-8">
+                    <div className="alignInfo">
+                      <CloseIcon
+                        className="icon"
+                        style={{ fontWeight: "bold" }}
+                        type="button"
+                        onClick={() => {
+                          setPartProfileModal(false);
+                          setQuestModal1(false);
+                          setQuestModal2(false);
+                          setQuestModal3(false);
+                          setQuestModal4(false);
+                          setQuestModal5(false);
+                          setQuestModal6(false);
+                          setProgressModal(false);
+                        }}
+                      ></CloseIcon>
+                    </div>
+                    <h2
+                      class="portfolio-modal-title text-secondary text-uppercase mb-0"
+                      id="portfolioModal1Label"
+                    >
+                      Progress Report
+                    </h2>
+                    <div class="divider-custom">
+                      <div class="divider-custom-line"></div>
+                      <div class="divider-custom-icon">
+                        <GradeRoundedIcon style={{ fontSize: 40 }} />
+                      </div>
+                      <div class="divider-custom-line"></div>
+                    </div>
+                    {reports.map(({ reportId, reportss }) => (
+                      <>
+                        <span className="hideDis">{(j = j + 1)}</span>
+                        <Reports
+                          userId={userId}
+                          name={name}
+                          address={address}
+                          reportId={reportId}
+                          reportss={reportss}
+                          value1={reportss.value1}
+                          value2={reportss.value2}
+                          value3={reportss.value3}
+                          value4={reportss.value4}
+                          value5={reportss.value5}
+                          value6={reportss.value6}
+                          j={j}
+                          solution1={solution1}
+                          solution2={solution2}
+                          solution3={solution3}
+                          solution4={solution4}
+                          solution5={solution5}
+                          solution6={solution6}
+                        ></Reports>
+                        <p></p>
+
+                        {/*  store each answer from q1 to q6
+                        in an array of numbers */}
+                        <span className="hideDis">
+                          {(numbers1[a] = reportss.value1)}
+                        </span>
+                        <span className="hideDis">
+                          {(numbers2[a] = reportss.value2)}
+                        </span>
+                        <span className="hideDis">
+                          {(numbers3[a] = reportss.value3)}
+                        </span>
+                        <span className="hideDis">
+                          {(numbers4[a] = reportss.value4)}
+                        </span>
+                        <span className="hideDis">
+                          {(numbers5[a] = reportss.value5)}
+                        </span>
+                        <span className="hideDis">
+                          {(numbers6[a] = reportss.value6)}
+                        </span>
+
+                        <span className="hideDis">
+                          {numbers1.map((number) => number)}
+                        </span>
+                        <span className="hideDis">
+                          {numbers2.map((number) => number)}
+                        </span>
+                        <span className="hideDis">
+                          {numbers3.map((number) => number)}
+                        </span>
+                        <span className="hideDis">
+                          {numbers4.map((number) => number)}
+                        </span>
+                        <span className="hideDis">
+                          {numbers5.map((number) => number)}
+                        </span>
+                        <span className="hideDis">
+                          {numbers6.map((number) => number)}
+                        </span>
+                        <span className="hideDis">{(a = a + 1)}</span>
+                      </>
+                    ))}
+                    <br></br>
+
+                    <span className="hideDis">
+                      {solution1 < 5 ? (flag1 = "Yes") : (flag1 = "No")}
+                      {solution2 < 5 ? (flag2 = "Yes") : (flag2 = "No")}
+                      {solution3 < 5 ? (flag3 = "Yes") : (flag3 = "No")}
+                      {solution4 < 5 ? (flag4 = "Yes") : (flag4 = "No")}
+                      {solution5 < 5 ? (flag5 = "Yes") : (flag5 = "No")}
+                      {solution6 < 5 ? (flag6 = "Yes") : (flag6 = "No")}
+                    </span>
+                    {/* HARDCODED SHIT*/}
+                    {average == "" ? (
+                      <button
+                        onClick={() => {
+                          setAverage("1");
+                          setSolution1(
+                            (
+                              numbers1.reduce(function (total, amount) {
+                                return total + amount;
+                              }) / a
+                            ).toFixed(2) //convert average to 2 decimal places
+                          );
+                          setSolution2(
+                            (
+                              numbers2.reduce(function (total, amount) {
+                                return total + amount;
+                              }) / a
+                            ).toFixed(2)
+                          );
+                          setSolution3(
+                            (
+                              numbers3.reduce(function (total, amount) {
+                                return total + amount;
+                              }) / a
+                            ).toFixed(2)
+                          );
+                          setSolution4(
+                            (
+                              numbers4.reduce(function (total, amount) {
+                                return total + amount;
+                              }) / a
+                            ).toFixed(2)
+                          );
+                          setSolution5(
+                            (
+                              numbers5.reduce(function (total, amount) {
+                                return total + amount;
+                              }) / a
+                            ).toFixed(2)
+                          );
+                          setSolution6(
+                            (
+                              numbers6.reduce(function (total, amount) {
+                                return total + amount;
+                              }) / a
+                            ).toFixed(2)
+                          );
+                        }}
+                        className="avg"
+                      >
+                        Average
+                      </button>
+                    ) : (
+                      <>
+                        <center>
+                          <span
+                            className="average"
+                            onClick={() => setAverage("")}
+                          >
+                            <h4>Average</h4>
+                          </span>
+                          <Chart
+                            chartType="Table"
+                            loader={<div>Loading Chart</div>}
+                            data={[
+                              [
+                                { type: "string", label: "Question" },
+                                { type: "number", label: "Average" },
+                                { type: "string", label: "Flag" },
+                              ],
+                              ["Baby's latch", { v: solution1 }, flag1],
+                              ["Baby's appetite", { v: solution2 }, flag2],
+                              [
+                                "Frequency of breastfeeding",
+                                { v: solution3 },
+                                flag3,
+                              ],
+                              [
+                                "Mother's hunger levels",
+                                { v: solution4 },
+                                flag4,
+                              ],
+                              ["Mothers's appetite", { v: solution5 }, flag5],
+                              [
+                                "Quality of supplementary foods",
+                                { v: solution6 },
+                                flag6,
+                              ],
+                            ]}
+                            options={{
+                              showRowNumber: true,
+                              width: "100%",
+                            }}
+                            rootProps={{ "data-testid": "1" }}
+                            legendToggle
+                          />
+                        </center>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Modal>
+
+      <Modal //Participant Profile
+        open={progress2Modal} //state to keep track if its open
+        onClose={() => {
+          setProgress2Modal(false);
+        }} //onClose method. closes the model when anywhere else on the screen is clicked
+      >
+        <div
+          class="modal-dialog modal-xl  modal-dialog-scrollable "
+          role="document"
+        >
+          <div class="modal-content">
+            <div class="modal-body text-center">
+              <div class="container">
+                <div class="row justify-content-center ">
+                  <div class="col-lg-8">
+                    <h2
+                      class="portfolio-modal-title text-secondary text-uppercase mb-0"
+                      id="portfolioModal1Label"
+                    >
+                      Progress 2 Report
+                    </h2>
+                    <div class="divider-custom">
+                      <div class="divider-custom-line"></div>
+                      <div class="divider-custom-icon">
+                        <GradeRoundedIcon style={{ fontSize: 40 }} />
+                      </div>
+                      <div class="divider-custom-line"></div>
+                    </div>
+
+                    {reports.map(({ reportId, reportss }) => (
+                      <>
+                        <span className="hideDis">{(j = j + 1)}</span>
+
+                        <Report2
+                          userId={userId}
+                          name={name}
+                          address={address}
+                          reportId={reportId}
+                          reportss={reportss}
+                          value1={reportss.value1}
+                          value2={reportss.value2}
+                          value3={reportss.value3}
+                          value4={reportss.value4}
+                          value5={reportss.value5}
+                          value6={reportss.value6}
+                          j={j}
+                        ></Report2>
+                        <p></p>
+                      </>
+                    ))}
                   </div>
                 </div>
               </div>

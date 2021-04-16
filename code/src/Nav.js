@@ -1,8 +1,5 @@
 import React from "react";
-import { auth } from "./firebase";
-import { Link } from "react-router-dom";
 import MenuIcon from "@material-ui/icons/Menu";
-import Button from "@material-ui/core/Button";
 
 function Nav({ user, setOpenSignIn }) {
   return (

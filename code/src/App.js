@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { auth } from "./firebase";
 import "./App.css";
 import Home from "./Home";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import ParticipantPage from "./ParticipantPage";
-import { auth } from "./firebase";
 import Navigation from "./Navigation";
 import Nav from "./Nav";
-import QuestionnairePage from "./components/QuestionnairePage";
-import Reports from "./Reports";
+import ParticipantPage from "./ParticipantPage";
 
 function App() {
   const [user, setUser] = useState(null); //state to keep track of the user
@@ -102,22 +100,6 @@ function App() {
             {/* signed in Navigation bar */}
             <Navigation user={user} setOpenSignIn={setOpenSignIn} />
             <Switch>
-              <Route exact path="/">
-                <Home
-                  user={user}
-                  setUsername={setUsername}
-                  signIn={signIn}
-                  signUp={signUp}
-                  email={email}
-                  setEmail={setEmail}
-                  open={open}
-                  setOpen={setOpen}
-                  openSignIn={openSignIn}
-                  setOpenSignIn={setOpenSignIn}
-                  password={password}
-                  setPassword={setPassword}
-                />
-              </Route>
               <Route exact path="/ParticipantPage">
                 <ParticipantPage
                   user={user}
@@ -129,19 +111,16 @@ function App() {
                   setUid={setUid}
                 />
               </Route>
-
-              <Route exact path="/ParticipantPage/QuestionnairePage">
-                <QuestionnairePage
+              <Route exact path="/">
+                <ParticipantPage
                   user={user}
                   setOpenSignIn={setOpenSignIn}
+                  username={username}
                   name={name}
+                  setName={setName}
                   uid={uid}
                   setUid={setUid}
                 />
-              </Route>
-
-              <Route exact path="/Reports">
-                <Reports user={user} name={name} />
               </Route>
             </Switch>
           </>

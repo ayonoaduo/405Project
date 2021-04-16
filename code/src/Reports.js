@@ -1,55 +1,63 @@
 import React from "react";
+import { useState } from "react";
+import { db } from "./firebase";
+import Chart from "react-google-charts";
 import "./Reports.css";
-import firebase from "firebase";
-const google = (window.google = window.google ? window.google : {});
-// Load the Visualization API and the corechart package.
-google.charts.load("current", { packages: ["corechart"] });
 
-// Callback that creates and populates a data table,
-// instantiates the pie chart, passes in the data and
-// draws it.
-function drawChart() {
-  // Create the data table.
-  // Some raw data (not necessarily accurate)
-
-  var data = google.visualization.arrayToDataTable([
-    [
-      "Month",
-      "Bolivia",
-      "Ecuador",
-      "Madagascar",
-      "Papua New Guinea",
-      "Rwanda",
-      "Average",
-    ],
-    ["2004/05", 902, 938, 522, 998, 450, 614.6],
-    ["2005/06", 135, 1120, 599, 1268, 288, 682],
-    ["2006/07", 157, 1167, 587, 807, 397, 623],
-    ["2007/08", 139, 1110, 615, 968, 215, 609.4],
-    ["2008/09", 136, 691, 629, 1026, 366, 569.6],
-  ]);
-
-  var options = {
-    title: "Monthly Coffee Production by Country",
-    vAxis: { title: "Rating" },
-    hAxis: { title: "Month" },
-    seriesType: "bars",
-    series: { 5: { type: "line" } },
-  };
-
-  var chart = new google.visualization.ComboChart(
-    document.getElementById("chart_div")
-  );
-  chart.draw(data, options);
-}
-function Reports({ user }) {
+function Reports({
+  uid,
+  setUid,
+  userId,
+  name,
+  address,
+  user,
+  userr,
+  reportId,
+  reportss,
+  value1,
+  value2,
+  value3,
+  value4,
+  value5,
+  value6,
+  j,
+  solution1,
+  solution2,
+  solution3,
+  solution4,
+  solution5,
+  solution6,
+}) {
   return (
     <div>
-      <div class="chart_div" id="chart_div">
-        <h5>Test</h5>
-        <button onClick={google.charts.setOnLoadCallback(drawChart)}>
-          Draw Chart
-        </button>
+      {/* Prints on flag column. Flag if a question if its average is greater than 5 */}
+
+      <div className="chart_div">
+        <h4>Report {j}</h4>
+        <center>
+          <Chart
+            chartType="Table"
+            loader={<div>Loading Chart</div>}
+            data={[
+              [
+                { type: "string", label: "Question" },
+                { type: "number", label: "Answer" },
+              ],
+              ["Baby's latch", { v: value1 }],
+              ["Baby's appetite", { v: value2 }],
+              ["Frequency of breastfeeding", { v: value3 }],
+              ["Mother's hunger levels", { v: value4 }],
+              ["Mothers's appetite", { v: value5 }],
+              ["Quality of supplementary foods", { v: value6 }],
+            ]}
+            options={{
+              showRowNumber: true,
+              width: "100%",
+            }}
+            rootProps={{ "data-testid": "1" }}
+            legendToggle
+          />
+        </center>
       </div>
     </div>
   );

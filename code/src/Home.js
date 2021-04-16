@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "./Home.css";
-import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
+import Button from "@material-ui/core/Button";
+import { Link } from "react-router-dom";
 import GradeRoundedIcon from "@material-ui/icons/GradeRounded";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import TwitterIcon from "@material-ui/icons/Twitter";
@@ -12,29 +13,6 @@ import bottle from "./milk bottle.png";
 import vitamins from "./vitamins.png";
 import calendar from "./Calendar.png";
 import breastfeeding from "./breastfeeding.png";
-
-/*Styling for modal. Code from material-ui.com*/
-function getModalStyle() {
-  const top = 50;
-  const left = 50;
-
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
-}
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    position: "absolute",
-    width: 400,
-    backgroundColor: theme.palette.background.paper,
-    border: "2px solid #000",
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
-}));
 
 function Home({
   user,
@@ -169,13 +147,6 @@ function Home({
                     >
                       View More
                     </button>
-                    {/* <IconButton>
-                      <AddRoundedIcon
-                        className="text-white"
-                        style={{ fontSize: 100 }}
-                        onClick={() => setOpenFirst(true)}
-                      />
-                    </IconButton>{" "} */}
                   </div>
                 </div>
 
@@ -277,6 +248,18 @@ function Home({
                       >
                         Sign Up
                       </button>
+                      <br />
+                      <br />
+                      <span>Already have an account? </span>
+                      <span
+                        className="signin__link font-weight-bold"
+                        onClick={() => {
+                          setOpen(false);
+                          setOpenSignIn(true);
+                        }}
+                      >
+                        Sign In
+                      </span>
                     </form>
                   </div>
                 </div>
@@ -354,13 +337,15 @@ function Home({
                       <br />
                       <div id="success"></div>
 
-                      <button
+                      <Button
                         type="submit"
                         class="btn btn-primary btn-xl"
                         onClick={signIn}
+                        component={Link}
+                        to="/ParticipantPage"
                       >
                         Sign In
-                      </button>
+                      </Button>
                       <br />
                       <br />
                       <span>Not yet a user? </span>

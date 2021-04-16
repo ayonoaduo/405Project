@@ -9,6 +9,7 @@ const firebaseApp = firebase.initializeApp({
   messagingSenderId: "451721068836",
   appId: "1:451721068836:web:595d8e7af54597648373b1",
   measurementId: "G-NGXRXQ72X3",
+  databaseURL: "https://project-vitality-918dd-default-rtdb.firebaseio.com/",
 });
 
 const db = firebaseApp.firestore(); /*access the db*/

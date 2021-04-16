@@ -2,58 +2,16 @@ import React, { useState, useEffect } from "react";
 import "./ParticipantPage.css";
 import AddBoxOutlinedIcon from "@material-ui/icons/AddBoxOutlined";
 import Modal from "@material-ui/core/Modal";
-import calendar from "./Calendar.png";
 import GradeRoundedIcon from "@material-ui/icons/GradeRounded";
-import { db, storage } from "./firebase";
+import { db } from "./firebase";
 import firebase from "firebase";
 import Participants from "./Participants";
-import CloseIcon from "@material-ui/icons/Close";
-const google = (window.google = window.google ? window.google : {});
-// Load the Visualization API and the corechart package.
-google.charts.load("current", { packages: ["corechart"] });
-
-// Callback that creates and populates a data table,
-// instantiates the pie chart, passes in the data and
-// draws it.
-function drawChart() {
-  // Create the data table.
-  // Some raw data (not necessarily accurate)
-
-  var data = google.visualization.arrayToDataTable([
-    [
-      "Month",
-      "Bolivia",
-      "Ecuador",
-      "Madagascar",
-      "Papua New Guinea",
-      "Rwanda",
-      "Average",
-    ],
-    ["2004/05", 902, 938, 522, 998, 450, 614.6],
-    ["2005/06", 135, 1120, 599, 1268, 288, 682],
-    ["2006/07", 157, 1167, 587, 807, 397, 623],
-    ["2007/08", 139, 1110, 615, 968, 215, 609.4],
-    ["2008/09", 136, 691, 629, 1026, 366, 569.6],
-  ]);
-
-  var options = {
-    title: "Monthly Coffee Production by Country",
-    vAxis: { title: "Rating" },
-    hAxis: { title: "Month" },
-    seriesType: "bars",
-    series: { 5: { type: "line" } },
-  };
-
-  var chart = new google.visualization.ComboChart(
-    document.getElementById("chart_div")
-  );
-  chart.draw(data, options);
-}
 
 function ParticipantPage({ user, name, setName, uid, setUid }) {
   const [openAddParticipant, setOpenAddParticipant] = useState(false); //State to handle First100Days Modal
   const [date, setDate] = useState(new Date());
   const [address, setAddress] = useState("");
+
   const [users, setUsers] = useState([]);
   //useEffect runs a piece of code based on a specific
   //condition
@@ -61,7 +19,7 @@ function ParticipantPage({ user, name, setName, uid, setUid }) {
     //this is where the code runs
     //snapshot is a powerful listener that will run the code when a post is made
     db.collection("users")
-      .orderBy("name", "desc")
+      .orderBy("name", "asc")
       .onSnapshot((snapshot) => {
         //everytime a new post is added, this code fires...
         setUsers(
@@ -88,7 +46,7 @@ function ParticipantPage({ user, name, setName, uid, setUid }) {
   };
 
   return (
-    <div>
+    <div className="back">
       <Modal
         open={openAddParticipant}
         onClose={() => {
@@ -104,13 +62,6 @@ function ParticipantPage({ user, name, setName, uid, setUid }) {
               <div class="container">
                 <div class="row justify-content-center">
                   <div class="col-lg-8">
-                    {/* <!-- Portfolio Modal - Title--> */}
-                    <button
-                      class="btn btn-primary closeWindow"
-                      onClick={() => setOpenAddParticipant(false)}
-                    >
-                      <CloseIcon />
-                    </button>
                     <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">
                       Add Participant
                     </h2>
@@ -211,12 +162,6 @@ function ParticipantPage({ user, name, setName, uid, setUid }) {
                 ></Participants>
               ))
             }
-          </div>
-
-          <div id="chart_div">
-            <button onClick={google.charts.setOnLoadCallback(drawChart)}>
-              Draw Chart
-            </button>
           </div>
         </center>
       </div>
