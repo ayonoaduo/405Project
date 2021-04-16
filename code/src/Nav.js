@@ -1,10 +1,7 @@
 import React from "react";
-import { auth } from "./firebase";
-import { Link } from "react-router-dom";
 import MenuIcon from "@material-ui/icons/Menu";
-import Button from "@material-ui/core/Button";
 
-function Navigation({ user, setOpenSignIn }) {
+function Nav({ user, setOpenSignIn }) {
   return (
     <div>
       <nav
@@ -28,14 +25,12 @@ function Navigation({ user, setOpenSignIn }) {
             <ul class="navbar-nav ml-auto">
               <li class="nav-item mx-0 mx-lg-1">
                 <div className="app__loginContainer">
-                  <Button
-                    className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger text-uppercase font-weight-bold  "
-                    onClick={() => auth.signOut()}
-                    component={Link}
-                    to="/"
+                  <button
+                    className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger text-uppercase font-weight-bold "
+                    onClick={() => setOpenSignIn(true)}
                   >
-                    Logout
-                  </Button>
+                    Sign In
+                  </button>
                 </div>
               </li>
             </ul>
@@ -46,4 +41,4 @@ function Navigation({ user, setOpenSignIn }) {
   );
 }
 
-export default Navigation;
+export default Nav;
