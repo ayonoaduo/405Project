@@ -1,153 +1,211 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import Authentication from "./authentication/Authentication";
+import Navigation from "./Navigation";
+import HomePage from "./icons/HomePage";
+import PostPage from "./icons/PostPage";
+import ReportSubmitted from "./components/ReportSubmitted";
+import ProfilePage from "./icons/ProfilePage";
+import Settings from "./components/Settings";
+import AdminHomePage from "./components/AdminHomePage";
+import AdminApprovedPage from "./components/AdminApprovedPage";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { auth } from "./firebase";
-import "./App.css";
-import Home from "./Home";
-import Navigation from "./Navigation";
-import Nav from "./Nav";
-import ParticipantPage from "./ParticipantPage";
 
+/* This function keeps all page navigation within the session of the webpage.
+Through the use of React Router, we are able to build a single-page web application with navigation
+without the page refreshing as the user navigates.
+React Router uses component structure to call components, which display the appropriate information.
+*/
 function App() {
   const [user, setUser] = useState(null); //state to keep track of the user
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [open, setOpen] = useState(false);
-  const [openSignIn, setOpenSignIn] = useState(false);
-  const [name, setName] = useState("");
-  const [uid, setUid] = useState("");
+  const [username, setUsername] = useState(""); //state to keep track of username
+  const [resetPass, setResetPass] = useState(false); //state to check if the user wants to reset password
+  const [signInYes, setSignIn] = useState(true); // state to check if the user wants to sign in
+  const [signUpYes, setSignUp] = useState(false); //state to check if the user wants to sign up
+  const [progress, setProgress] = useState(0); //state to keep track of the progress bar
+  const [address, setAddress] = React.useState(""); //state to set the address value
+  const [neighborhood, setNeighborhood] = React.useState(""); //state to set the neighborhood value
+  const [street, setStreet] = React.useState(""); //state to set the street value
+  const emailRef = useRef(null); //value for the user's email
+  const passwordRef = useRef(null); //value for the user's password
 
   useEffect(() => {
+    //listener for any authentication state change
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
-      //listen anytime an authentication change happens
       if (authUser) {
-        //user has logged in...
-        console.log(authUser); //check the console if someone is there or not
-        setUser(authUser); //Cookie tracking to keep you logged in. Captures the user in our state.
+        //user has logged in..
+        console.log(authUser); //check the console if someone is logged in
+        setUser(authUser); //cookie tracking to keep you logged in
 
         if (authUser.displayName) {
-          //dont update username if they dont have a display name
+          //dont update the username if they dont have a display name
         } else {
-          // if we just created someone...
+          //if we just created someone...
           return authUser.updateProfile({
-            displayName: username, //set their display name in firebase
+            displayName: username, //set the display name in firebase
           });
         }
       } else {
-        // user has logged out...
+        //user logged out...
         setUser(null);
       }
     });
-
     return () => {
-      //perform some cleanup actions before restarting the useEffect. This to avoid duplicate listeners.
+      //perform some cleanup actions before restarting useEffect to avoid
+      //duplicate listeners
       unsubscribe();
     };
   }, [user, username]);
 
-  //sign up function. Fired up by the button
-  const signUp = (event) => {
-    event.preventDefault(); //avoid refresh when sign up button is clicked
-
-    //verify email
-    auth.onAuthStateChanged(function (firebaseUser) {
-      if (firebaseUser) {
-        firebaseUser.sendEmailVerification().then(
-          function () {
-            // Email sent.
-            //alert("Your email verification code has been sent")
-          },
-          function (error) {
-            // An error happened.
-            alert(error.message);
-          }
-        );
-      } else {
-      }
-    });
+  /*function "register" is fired up when the user tries to sign up
+  The function creates the user in firebase*/
+  const register = (e) => {
+    e.preventDefault(); //prevent refresh when button is clicked
 
     auth
-      .createUserWithEmailAndPassword(email, password) //create user
-      .then((authUser) => {
-        return authUser.user.updateProfile({
-          displayName: username,
-        });
-      })
-      //backend validation is done by firebase
-      .catch((error) => alert(error.message)); //alert of any errors with a message
+      .createUserWithEmailAndPassword(
+        emailRef.current.value, //get the email value typed
+        passwordRef.current.value //get the password
+      )
+      //send Email verification
+      .then(
+        function (authData) {
+          authData.user.sendEmailVerification();
+        },
+        //if email wasnt sent
+        function (error) {
+          //An error happened. Print error message to console
+          alert(error.message);
+        }
+      )
 
-    setOpen(false); //close modal after signing up
+      .then((authUser) => {
+        console.log(authUser);
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
   };
 
-  //sign in function. Fired up by the button
-  const signIn = (event) => {
-    event.preventDefault(); //avoid refresh when sign in button is clicked
-
+  /*  function "signIn" is fired up when the user tries to sign in
+  The function signs the user into the app */
+  const signIn = (e) => {
+    e.preventDefault();
     auth
-      .signInWithEmailAndPassword(email, password)
-      //backend validation is done by firebase
-      .catch((error) => alert(error.message)); //alert of any errors with a message
-
-    setOpenSignIn(false); //close modal after signing in
+      .signInWithEmailAndPassword(
+        emailRef.current.value,
+        passwordRef.current.value
+      )
+      .then((authUser) => {
+        console.log(authUser);
+      })
+      .catch((error) => alert(error.message));
   };
 
   return (
     <div className="app">
       <Router>
-        {/* if the user exists */}
-        {user ? (
-          <>
-            {/* signed in Navigation bar */}
-            <Navigation user={user} setOpenSignIn={setOpenSignIn} />
+        {user ? ( //does the user exist? show app features except authentication screen
+          <div>
+            {/* display the navigation bar if the user exists */}
+            <Navigation
+              user={user}
+              setSignIn={setSignIn}
+              setSignUp={setSignUp}
+              progress={progress}
+              setProgress={setProgress}
+            />
+
             <Switch>
-              <Route exact path="/ParticipantPage">
-                <ParticipantPage
+              {/* React Router uses component structure to call components, which display the appropriate information */}
+              {/* The following route statements call the appropriate components that display the required info for each page */}
+              <Route exact path="/">
+                <HomePage
                   user={user}
-                  setOpenSignIn={setOpenSignIn}
                   username={username}
-                  name={name}
-                  setName={setName}
-                  uid={uid}
-                  setUid={setUid}
+                  address={address}
+                  setAddress={setAddress}
+                  setStreet={setStreet}
+                  street={street}
+                  setNeighborhood={setNeighborhood}
+                  neighborhood={neighborhood}
                 />
               </Route>
-              <Route exact path="/">
-                <ParticipantPage
+
+              <Route exact path="/Homepage">
+                <HomePage
                   user={user}
-                  setOpenSignIn={setOpenSignIn}
                   username={username}
-                  name={name}
-                  setName={setName}
-                  uid={uid}
-                  setUid={setUid}
+                  address={address}
+                  setAddress={setAddress}
+                  setStreet={setStreet}
+                  street={street}
+                  setNeighborhood={setNeighborhood}
+                  neighborhood={neighborhood}
                 />
+              </Route>
+
+              <Route exact path="/PostPage">
+                <PostPage
+                  user={user}
+                  progress={progress}
+                  setProgress={setProgress}
+                  address={address}
+                  setAddress={setAddress}
+                  neighborhood={neighborhood}
+                  setNeighborhood={setNeighborhood}
+                  street={street}
+                  setStreet={setStreet}
+                />
+              </Route>
+
+              <Route exact path="/ProfilePage">
+                <ProfilePage
+                  user={user}
+                  username={username}
+                  address={address}
+                  setAddress={setAddress}
+                />
+              </Route>
+
+              <Route exact path="/PostPage/ReportSubmitted">
+                <ReportSubmitted />
+              </Route>
+
+              <Route exact path="/ProfilePage/Settings">
+                <Settings
+                  user={user}
+                  setSignIn={setSignIn}
+                  setSignUp={setSignUp}
+                  setResetPass={setResetPass}
+                />
+              </Route>
+
+              <Route exact path="/ProfilePage/Settings/AdminHomePage">
+                <AdminHomePage user={user} />
+              </Route>
+
+              <Route exact path="/ProfilePage/Settings/AdminApprovedPage">
+                <AdminApprovedPage user={user} />
               </Route>
             </Switch>
-          </>
+          </div>
         ) : (
-          // if the user does not exist
-          <>
-            {/* signed out Navigation bar */}
-            <Nav user={user} setOpenSignIn={setOpenSignIn} />
-            <Switch>
-              <Route exact path="/">
-                <Home
-                  user={user}
-                  setUsername={setUsername}
-                  signIn={signIn}
-                  signUp={signUp}
-                  email={email}
-                  setEmail={setEmail}
-                  open={open}
-                  setOpen={setOpen}
-                  openSignIn={openSignIn}
-                  setOpenSignIn={setOpenSignIn}
-                  password={password}
-                  setPassword={setPassword}
-                />
-              </Route>
-            </Switch>
-          </>
+          //else, if the user does not exist or is signed out, show the authentication screen
+          <Authentication
+            signUpYes={signUpYes}
+            setSignUp={setSignUp}
+            signInYes={signInYes}
+            setSignIn={setSignIn}
+            signIn={signIn}
+            register={register}
+            setUsername={setUsername}
+            username={username}
+            emailRef={emailRef}
+            passwordRef={passwordRef}
+            resetPass={resetPass}
+            setResetPass={setResetPass}
+          />
         )}
       </Router>
     </div>

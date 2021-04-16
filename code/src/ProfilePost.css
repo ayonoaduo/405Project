@@ -1,0 +1,141 @@
+.profilePost {
+  max-width: 500px; /*limit to how large post can be*/
+  background-color: white;
+  border: 1px solid lightgray;
+  margin-bottom: 45px; /* creates space between posts*/
+}
+.profilePost__image {
+  width: 100%;
+  object-fit: contain;
+  border-top: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
+}
+
+.profilePost__text {
+  font-weight: normal;
+  padding: 20px;
+}
+
+.profilePost__header {
+  display: flex; /*change into a row*/
+  align-items: center;
+  padding: 20px;
+}
+
+.profilePost__avatar {
+  margin-right: 10px; /*create space between avatar and username*/
+}
+
+.profilePost__commentBox {
+  margin-top: 10px;
+  display: flex;
+  outline-width: none;
+}
+
+.profilePost__comments {
+  padding: 20px;
+  outline-width: none;
+}
+
+.profilePost__input {
+  flex: 1; /*take up most of the room*/
+  border: none;
+  padding: 10px;
+  border-top: 1px solid lightgray;
+  border-right: 1px solid lightgray;
+  outline: none;
+  font-size: 16px;
+}
+
+.profilePost__button {
+  border-radius: 20px;
+  flex: 0; /* take as little room as possible*/
+  border: none;
+  background-color: #e50914;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 12px 20px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: transform 80ms ease-in;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.profilePost__button:active {
+  transform: scale(0.95);
+}
+
+.profilePost__button:focus {
+  outline: none;
+}
+
+.profilePost__button:hover {
+  background-color: black;
+  border-color: black;
+}
+
+.profilePost__button.ghost {
+  background-color: transparent;
+  border-color: #ffffff;
+}
+.profilePost__button.ghost:hover {
+  background-color: black;
+  border-color: #000;
+}
+
+.profilePost__tracker {
+  text-align: center;
+}
+
+.profilePost__tracker > h3,
+.profilePost__tracker > p {
+  margin: 10px;
+}
+
+.profilePost__trackerSubmitted > h3,
+.profilePost__trackerSubmitted > p {
+  display: inline;
+}
+
+.profilePost__trackerSubmitted > p {
+  color: blue;
+}
+
+.profilePost__trackerApproved > h3,
+.profilePost__trackerApproved > p {
+  display: inline;
+}
+
+.profilePost__trackerApproved > p {
+  color: green;
+}
+
+.profilePost__trackerSolved > h3,
+.profilePost__trackerSolved > p {
+  display: inline;
+}
+
+.profilePost__trackerDeclined > h3,
+.profilePost__trackerDeclined > p {
+  display: inline;
+}
+
+.profilePost__trackerDeclined > p {
+  color: red;
+}
+
+.profilePost__declineReason {
+  margin: 10px;
+}
+
+.profilePost__trackerSubmitted,
+.profilePost__trackerApproved,
+.profilePost__trackerSolved {
+  margin: 10px;
+}
+
+.profilePost__address {
+  padding: 20px;
+}

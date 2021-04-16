@@ -1,4 +1,6 @@
 .app {
-  /* text-align: center; */
+  background-color: #fafafa;
   height: 100%;
+  /* space between posts and bottom nav bar */
+  padding-bottom: 20px;
 }
