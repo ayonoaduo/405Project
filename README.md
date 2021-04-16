@@ -20,6 +20,7 @@ The audience we intend to reach with our project is the community workers. This 
 
 ## Vlogs
 - [MVP Progress Vlog 1](https://youtu.be/hqBPpfAcbf0) (March 17, 2021)
+- [Project Commercial](https://www.youtube.com/watch?v=zXvX0ARtUYo) (April 16, 2021)
 
 ## License
 
